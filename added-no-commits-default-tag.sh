@@ -1,0 +1,11 @@
+#!/bin/bash
+set -ex
+
+PATCHDIR="$(dirname "$0")"/patches
+
+hg init
+
+patch -p2 < "$PATCHDIR"/0100-code.diff
+patch -p2 < "$PATCHDIR"/0200-packaged.diff
+patch -p2 < "$PATCHDIR"/0300-default-tag.diff
+hg add
