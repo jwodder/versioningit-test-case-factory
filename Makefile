@@ -12,10 +12,10 @@ details : $(addprefix build/,$(addsuffix .json,$(CASES)))
 build/% : %.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
-	( cd $@ ; bash ../../$< )
+	cd $@ && bash ../../$<
 
 build/%.zip : build/%
-	( cd $< ; zip -r ../$(notdir $@) . )
+	cd $< && zip -r ../$(notdir $@) .
 
 build/%.json : build/%
 	export SOURCE_DATE_EPOCH=2147483647 \
