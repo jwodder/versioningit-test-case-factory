@@ -14,6 +14,6 @@ git commit -m "Packaging"
 
 git tag rel_0_1_0
 
-patch -p2 < "$PATCHDIR"/0300-custom-method.diff
+patch -p2 < "$PATCHDIR"/0300-custom-method-src.diff
 git add -A
 git commit -m "Use a custom method inside package for tag2version"
