@@ -46,3 +46,6 @@ patches/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
 patches/0300-pattern.diff : trees/0200-packaged trees/0300-pattern
 	mkdir -p patches
 	-diff -Naur $^ > $@
+
+clean :
+	rm -rf build patches
