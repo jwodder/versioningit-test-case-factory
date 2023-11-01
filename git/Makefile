@@ -94,6 +94,10 @@ $(PATCHDIR)/0300-default-version.diff : trees/0200-packaged trees/0300-default-v
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-default-version2.diff : trees/0200-packaged trees/0300-default-version2
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
@@ -103,6 +107,10 @@ $(PATCHDIR)/0400-custom-method-pkg.diff : trees/0300-custom-method-src trees/040
 	-diff -Naur $^ > $@
 
 $(PATCHDIR)/0400-default-version-bad.diff : trees/0300-default-version trees/0400-default-version-bad
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0400-write-onbuild.diff : trees/0300-default-version2 trees/0400-write-onbuild
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 

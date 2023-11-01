@@ -1,0 +1,32 @@
+[build-system]
+requires = [
+    "setuptools >= 46.4.0",
+    "versioningit",
+    "wheel ~= 0.32",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.versioningit]
+default-version = "0.0.0+error"
+
+[tool.versioningit.vcs]
+match = ["v*"]
+
+[tool.versioningit.template-fields.version-tuple]
+pep440 = true
+
+[tool.versioningit.write]
+file = "src/mypackage/_version.py"
+template = """\
+__version__ = "{version}"
+__version_tuple__ = {version_tuple}\
+"""
+
+[tool.versioningit.onbuild]
+source-file = "src/mypackage/__init__.py"
+build-file = "mypackage/__init__.py"
+regex = '^\s*__version__\s*=.*'
+replacement = """\
+__version__ = "{version}"
+__version_tuple__ = {version_tuple}\
+"""
