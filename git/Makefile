@@ -6,7 +6,7 @@ ARCHIVEDIR = $(OUTDIR)/archives
 
 CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
-MARKS = $(wildcard *.marks)
+MARKS = $(notdir $(wildcard cases/*.marks))
 
 ARCHIVE_CASES = distance exact
 ARCHIVES = $(addprefix $(ARCHIVEDIR)/git-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
