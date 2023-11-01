@@ -74,6 +74,10 @@ $(PATCHDIR)/0300-custom-format.diff : trees/0200-packaged trees/0300-custom-form
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-custom-method-setup.diff : trees/0200-packaged trees/0300-custom-method-setup
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0300-custom-method-src.diff : trees/0200-packaged trees/0300-custom-method-src
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
