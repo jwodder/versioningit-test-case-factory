@@ -70,7 +70,7 @@ $(PATCHDIR)/0300-archive-match.diff : trees/0200-packaged trees/0300-archive-mat
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-$(PATCHDIR)/0300-custom.diff : trees/0200-packaged trees/0300-custom
+$(PATCHDIR)/0300-custom-format.diff : trees/0200-packaged trees/0300-custom-format
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 

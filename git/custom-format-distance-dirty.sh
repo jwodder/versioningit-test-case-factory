@@ -18,5 +18,5 @@ patch -p2 < "$PATCHDIR"/0300-feature.diff
 git add -A
 git commit -m "Add a feature"
 
-patch -p2 < "$PATCHDIR"/0300-custom.diff
+patch -p2 < "$PATCHDIR"/0300-custom-format.diff
 patch -p2 < "$PATCHDIR"/0300-dirt.diff

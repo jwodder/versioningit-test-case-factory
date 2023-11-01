@@ -14,5 +14,5 @@ git commit -m "Packaging"
 
 git tag v0.1.0
 
-patch -p2 < "$PATCHDIR"/0300-custom.diff
+patch -p2 < "$PATCHDIR"/0300-custom-format.diff
 patch -p2 < "$PATCHDIR"/0300-dirt.diff
