@@ -12,7 +12,7 @@ ARCHIVE_CASES = distance exact
 ARCHIVES = $(addprefix $(ARCHIVEDIR)/git-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
 ARCHIVE_DETAILS = $(addprefix $(ARCHIVEDIR)/git-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
 
-all : zips details marks archives
+all : zips details marks archives sdist
 
 zips : $(addprefix $(OUTDIR)/repos/,$(addsuffix .zip,$(CASES)))
 
@@ -23,6 +23,9 @@ marks : $(addprefix $(OUTDIR)/repos/,$(MARKS))
 archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
 
 .SECONDARY : $(addprefix $(REPODIR)/,$(CASES))
+
+sdist : $(REPODIR)/onbuild-write-fields
+	cd $< && python3 -m build --sdist && mv dist/*.tar.gz $(abspath $(OUTDIR))
 
 $(REPODIR)/% : cases/%.sh $(PATCHES)
 	rm -rf $@
