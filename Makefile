@@ -1,48 +1,66 @@
+BUILDDIR = build
+OUTDIR = $(BUILDDIR)/target
+REPODIR = $(BUILDDIR)/repos
+PATCHDIR = $(BUILDDIR)/patches
+
 CASES = $(basename $(wildcard *.sh))
-PATCHES = $(addprefix patches/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
+PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 
-all : zips details
+ARCHIVE_CASES = default-tag distance exact
+ARCHIVES = $(addprefix $(OUTDIR)/archives/hg-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
+ARCHIVE_DETAILS = $(addprefix $(OUTDIR)/archives/hg-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
 
-repos : $(addprefix build/,$(CASES))
+all : zips details archives
 
-zips : $(addprefix build/,$(addsuffix .zip,$(CASES)))
+zips : $(addprefix $(OUTDIR)/hg/,$(addsuffix .zip,$(CASES)))
 
-details : $(addprefix build/,$(addsuffix .json,$(CASES)))
+details : $(addprefix $(OUTDIR)/hg/,$(addsuffix .json,$(CASES)))
 
-build/% : %.sh $(PATCHES)
+archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
+
+$(REPODIR)/% : %.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
-	cd $@ && bash ../../$<
+	cd $@ && PATCHDIR=$(abspath $(PATCHDIR)) bash $(abspath $<)
 
-build/%.zip : build/%
-	cd $< && zip -r ../$(notdir $@) .
+$(OUTDIR)/hg/%.zip : $(REPODIR)/%
+	mkdir -p $(dir $@)
+	cd $< && zip -r $(abspath $@) .
 
-build/%.json : build/% %.json
-	awk -v hash="$$(cd build/$*; hg id -i)" '{ sub("{hash}", hash); print }' $*.json > $@
+$(OUTDIR)/hg/%.json : $(REPODIR)/% %.json
+	mkdir -p $(dir $@)
+	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' $*.json > $@
 
-patches/0100-code.diff : trees/0000 trees/0100-code
-	mkdir -p patches
+$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/hg/%.json
+	mkdir -p $(dir $@)
+	mkdir -p $(BUILDDIR)/scratch
+	cd $< && hg archive $(abspath $(BUILDDIR)/scratch/hg-archive-$*)
+	cd $(BUILDDIR)/scratch/hg-archive-$* && zip -r $(abspath $@) .
+	cp -f $(OUTDIR)/hg/$*.json $(OUTDIR)/archives/hg-archive-$*.json
+
+$(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-patches/0200-packaged.diff : trees/0100-code trees/0200-packaged
-	mkdir -p patches
+$(PATCHDIR)/0200-packaged.diff : trees/0100-code trees/0200-packaged
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-patches/0300-feature.diff : trees/0200-packaged trees/0300-feature
-	mkdir -p patches
+$(PATCHDIR)/0300-feature.diff : trees/0200-packaged trees/0300-feature
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-patches/0300-default-tag.diff : trees/0200-packaged trees/0300-default-tag
-	mkdir -p patches
+$(PATCHDIR)/0300-default-tag.diff : trees/0200-packaged trees/0300-default-tag
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-patches/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
-	mkdir -p patches
+$(PATCHDIR)/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-patches/0300-pattern.diff : trees/0200-packaged trees/0300-pattern
-	mkdir -p patches
+$(PATCHDIR)/0300-pattern.diff : trees/0200-packaged trees/0300-pattern
+	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
 clean :
-	rm -rf build patches
+	rm -rf $(BUILDDIR)

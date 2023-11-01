@@ -1,8 +1,6 @@
 #!/bin/bash
 set -ex
 
-PATCHDIR="$(dirname "$0")"/patches
-
 hg init
 
 patch -p2 < "$PATCHDIR"/0100-code.diff
