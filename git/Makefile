@@ -134,5 +134,9 @@ $(PATCHDIR)/0500-onbuild-bases.diff : trees/0400-onbuild trees/0500-onbuild-base
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0500-onbuild-nonidem.diff : trees/0400-onbuild trees/0500-onbuild-nonidem
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 clean :
 	rm -rf $(BUILDDIR)

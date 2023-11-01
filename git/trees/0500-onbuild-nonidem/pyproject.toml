@@ -1,0 +1,8 @@
+[build-system]
+requires = ["setuptools >= 46.4.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+[tool.versioningit.onbuild]
+source-file = "src/mypackage/__init__.py"
+build-file = "mypackage/__init__.py"
+replacement = "\"{version}\"\n# The above was set by versioningit!"
