@@ -114,6 +114,10 @@ $(PATCHDIR)/0300-write-encoding.diff : trees/0200-packaged trees/0300-write-enco
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-write-py.diff : trees/0200-packaged trees/0300-write-py
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0400-custom-method-pkg.diff : trees/0300-custom-method-src trees/0400-custom-method-pkg
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
