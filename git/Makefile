@@ -82,10 +82,6 @@ $(PATCHDIR)/0300-custom-method-src.diff : trees/0200-packaged trees/0300-custom-
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-$(PATCHDIR)/0300-feature.diff : trees/0200-packaged trees/0300-feature
-	mkdir -p $(PATCHDIR)
-	-diff -Naur $^ > $@
-
 $(PATCHDIR)/0300-default-tag.diff : trees/0200-packaged trees/0300-default-tag
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
@@ -99,6 +95,14 @@ $(PATCHDIR)/0300-default-version2.diff : trees/0200-packaged trees/0300-default-
 	-diff -Naur $^ > $@
 
 $(PATCHDIR)/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0300-exclude.diff : trees/0200-packaged trees/0300-exclude
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0300-feature.diff : trees/0200-packaged trees/0300-feature
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
