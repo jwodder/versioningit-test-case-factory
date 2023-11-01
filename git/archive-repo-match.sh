@@ -12,7 +12,7 @@ rmdir mypackage
 git add -A
 git commit -m "Packaging"
 
-git tag v0.1.0
+git tag -m 'Version 0.1.0' v0.1.0
 
 patch -p2 < "$PATCHDIR"/0300-archive-match.diff
 git add -A
@@ -22,4 +22,4 @@ patch -p2 < "$PATCHDIR"/0300-feature.diff
 git add -A
 git commit -m "Add a feature"
 
-git tag v0.2.0
+git tag -m 'Version 0.2.0' 0.2.0
