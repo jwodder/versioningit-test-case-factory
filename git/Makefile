@@ -90,10 +90,6 @@ $(PATCHDIR)/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
-$(PATCHDIR)/0300-pattern.diff : trees/0200-packaged trees/0300-pattern
-	mkdir -p $(PATCHDIR)
-	-diff -Naur $^ > $@
-
 $(PATCHDIR)/0400-custom-method-pkg.diff : trees/0300-custom-method trees/0400-custom-method-pkg
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
