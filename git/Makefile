@@ -34,9 +34,9 @@ $(OUTDIR)/repos/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
 	cd $< && zip -r $(abspath $@) .
 
-$(OUTDIR)/repos/%.json : $(REPODIR)/% %.json
+$(OUTDIR)/repos/%.json : $(REPODIR)/% %.json util/format-json.py
 	mkdir -p $(dir $@)
-	awk -v hash="$$(cd $<; git show -s --format=%h)" '{ sub("{hash}", hash); print }' $*.json > $@
+	python3 util/format-json.py -o $@ $< $*.json
 
 $(OUTDIR)/repos/%.marks : %.marks
 	cp -f $< $@
@@ -130,11 +130,19 @@ $(PATCHDIR)/0400-write-onbuild.diff : trees/0300-default-version2 trees/0400-wri
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0500-add-write-to-onbuild.diff : trees/0400-onbuild trees/0500-add-write-to-onbuild
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0500-onbuild-bases.diff : trees/0400-onbuild trees/0500-onbuild-bases
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
 $(PATCHDIR)/0500-onbuild-nonidem.diff : trees/0400-onbuild trees/0500-onbuild-nonidem
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0600-all-fields.diff : trees/0500-add-write-to-onbuild trees/0600-all-fields
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 

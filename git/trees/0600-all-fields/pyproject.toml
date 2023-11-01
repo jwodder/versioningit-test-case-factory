@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools >= 46.4.0", "versioningit"]
+build-backend = "setuptools.build_meta"
+
+[tool.versioningit.template-fields.version-tuple]
+pep440 = true
+
+[tool.versioningit.write]
+file = "src/mypackage/_version.py"
+template = """\
+__version__ = "{version}"
+__version_tuple__ = {version_tuple}
+__date__ = "{author_date}"
+__branch__ = {branch!r}
+__build_date__ = "{build_date:%Y%m%dT%H%M%SZ}"
+__commit_date__ = "{committer_date}"
+__base_version__ = "{base_version}"
+__tag_distance__ = {distance}
+__next_version__ = "{next_version}"
+__rev__ = "{rev}"
+__revision__ = "{revision}"
+__vcs__ = "{vcs}"
+__vcs_name__ = "{vcs_name}"\
+"""
+
+[tool.versioningit.onbuild]
+source-file = "src/mypackage/__init__.py"
+build-file = "mypackage/__init__.py"
+regex = '^\s*__version__\s*=.*'
+replacement = """\
+__version__ = "{version}"
+__version_tuple__ = {version_tuple}
+__date__ = "{author_date}"
+__branch__ = {branch!r}
+__build_date__ = "{build_date:%Y%m%dT%H%M%SZ}"
+__commit_date__ = "{committer_date}"
+__base_version__ = "{base_version}"
+__tag_distance__ = {distance}
+__next_version__ = "{next_version}"
+__rev__ = "{rev}"
+__revision__ = "{revision}"
+__vcs__ = "{vcs}"
+__vcs_name__ = "{vcs_name}"\
+"""
