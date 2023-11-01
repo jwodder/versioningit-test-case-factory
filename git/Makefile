@@ -58,6 +58,10 @@ $(PATCHDIR)/0300-archive-exclude.diff : trees/0200-packaged trees/0300-archive-e
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-archive-match.diff : trees/0200-packaged trees/0300-archive-match
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0300-feature.diff : trees/0200-packaged trees/0300-feature
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@

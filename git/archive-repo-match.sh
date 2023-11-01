@@ -14,7 +14,7 @@ git commit -m "Packaging"
 
 git tag v0.1.0
 
-patch -p2 < "$PATCHDIR"/0300-archive-exclude.diff
+patch -p2 < "$PATCHDIR"/0300-archive-match.diff
 git add -A
 git commit -m "Switch to git-archive"
 
