@@ -18,20 +18,22 @@ details : $(addprefix $(OUTDIR)/hg/,$(addsuffix .json,$(CASES)))
 
 archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
 
-$(REPODIR)/% : %.sh $(PATCHES)
+.SECONDARY : $(addprefix $(REPODIR)/hg/,$(CASES))
+
+$(REPODIR)/hg/% : %.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && PATCHDIR=$(abspath $(PATCHDIR)) bash $(abspath $<)
 
-$(OUTDIR)/hg/%.zip : $(REPODIR)/%
+$(OUTDIR)/hg/%.zip : $(REPODIR)/hg/%
 	mkdir -p $(dir $@)
 	cd $< && zip -r $(abspath $@) .
 
-$(OUTDIR)/hg/%.json : $(REPODIR)/% %.json
+$(OUTDIR)/hg/%.json : $(REPODIR)/hg/% %.json
 	mkdir -p $(dir $@)
 	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' $*.json > $@
 
-$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/hg/%.json
+$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/hg/% $(OUTDIR)/hg/%.json
 	mkdir -p $(dir $@)
 	mkdir -p $(BUILDDIR)/scratch
 	cd $< && hg archive $(abspath $(BUILDDIR)/scratch/hg-archive-$*)
