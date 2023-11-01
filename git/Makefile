@@ -3,7 +3,7 @@ OUTDIR = $(BUILDDIR)/target
 REPODIR = $(BUILDDIR)/repos
 PATCHDIR = $(BUILDDIR)/patches
 
-CASES = $(basename $(wildcard *.sh))
+CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 MARKS = $(wildcard *.marks)
 
@@ -25,7 +25,7 @@ archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
 
 .SECONDARY : $(addprefix $(REPODIR)/,$(CASES))
 
-$(REPODIR)/% : %.sh $(PATCHES)
+$(REPODIR)/% : cases/%.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && PATCHDIR=$(abspath $(PATCHDIR)) bash $(abspath $<)
@@ -34,11 +34,11 @@ $(OUTDIR)/repos/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
 	cd $< && zip -r $(abspath $@) .
 
-$(OUTDIR)/repos/%.json : $(REPODIR)/% %.json util/format-json.py
+$(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json util/format-json.py
 	mkdir -p $(dir $@)
-	python3 util/format-json.py -o $@ $< $*.json
+	python3 util/format-json.py -o $@ $< cases/$*.json
 
-$(OUTDIR)/repos/%.marks : %.marks
+$(OUTDIR)/repos/%.marks : cases/%.marks
 	cp -f $< $@
 
 $(ARCHIVES) : $(OUTDIR)/archives/git-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json

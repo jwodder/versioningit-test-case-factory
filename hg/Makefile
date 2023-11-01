@@ -3,7 +3,7 @@ OUTDIR = $(BUILDDIR)/target
 REPODIR = $(BUILDDIR)/repos
 PATCHDIR = $(BUILDDIR)/patches
 
-CASES = $(basename $(wildcard *.sh))
+CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 
 ARCHIVE_CASES = default-tag distance exact
@@ -20,7 +20,7 @@ archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
 
 .SECONDARY : $(addprefix $(REPODIR)/,$(CASES))
 
-$(REPODIR)/% : %.sh $(PATCHES)
+$(REPODIR)/% : cases/%.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && PATCHDIR=$(abspath $(PATCHDIR)) bash $(abspath $<)
@@ -29,9 +29,9 @@ $(OUTDIR)/repos/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
 	cd $< && zip -r $(abspath $@) .
 
-$(OUTDIR)/repos/%.json : $(REPODIR)/% %.json
+$(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json
 	mkdir -p $(dir $@)
-	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' $*.json > $@
+	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' cases/$*.json > $@
 
 $(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
 	mkdir -p $(dir $@)
