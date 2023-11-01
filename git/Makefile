@@ -122,6 +122,10 @@ $(PATCHDIR)/0400-onbuild.diff : trees/0300-feature trees/0400-onbuild
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0400-onbuild-cfg.diff : trees/0300-feature trees/0400-onbuild-cfg
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0400-write-onbuild.diff : trees/0300-default-version2 trees/0400-write-onbuild
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
