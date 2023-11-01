@@ -90,11 +90,19 @@ $(PATCHDIR)/0300-default-tag.diff : trees/0200-packaged trees/0300-default-tag
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-default-version.diff : trees/0200-packaged trees/0300-default-version
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0300-dirt.diff : trees/0200-packaged trees/0300-dirt
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
 $(PATCHDIR)/0400-custom-method-pkg.diff : trees/0300-custom-method-src trees/0400-custom-method-pkg
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0400-default-version-bad.diff : trees/0300-default-version trees/0400-default-version-bad
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
