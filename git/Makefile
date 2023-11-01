@@ -54,6 +54,10 @@ $(PATCHDIR)/0200-packaged.diff : trees/0100-code trees/0200-packaged
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0300-archive-tags.diff : trees/0200-packaged trees/0300-archive-tags
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0300-archive-exclude.diff : trees/0200-packaged trees/0300-archive-exclude
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
