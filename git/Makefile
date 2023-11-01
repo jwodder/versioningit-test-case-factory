@@ -118,7 +118,15 @@ $(PATCHDIR)/0400-default-version-bad.diff : trees/0300-default-version trees/040
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
+$(PATCHDIR)/0400-onbuild.diff : trees/0300-feature trees/0400-onbuild
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
 $(PATCHDIR)/0400-write-onbuild.diff : trees/0300-default-version2 trees/0400-write-onbuild
+	mkdir -p $(PATCHDIR)
+	-diff -Naur $^ > $@
+
+$(PATCHDIR)/0500-onbuild-bases.diff : trees/0400-onbuild trees/0500-onbuild-bases
 	mkdir -p $(PATCHDIR)
 	-diff -Naur $^ > $@
 
