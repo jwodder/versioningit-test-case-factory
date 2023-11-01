@@ -1,7 +1,7 @@
 BUILDDIR = build
 OUTDIR = $(BUILDDIR)/target
 
-all : $(OUTDIR)/no-git.zip $(OUTDIR)/no-pyproject.zip $(OUTDIR)/no-versioningit.zip
+all : $(OUTDIR)/no-git.zip $(OUTDIR)/no-pyproject.zip $(OUTDIR)/no-versioningit.zip $(OUTDIR)/shallow.zip
 
 $(OUTDIR)/no-git.zip : trees/no-git
 	mkdir -p $(dir $@)
@@ -20,6 +20,13 @@ $(OUTDIR)/no-versioningit.zip : cases/no-pyproject.sh trees/no-versioningit
 	mkdir -p $(BUILDDIR)/scratch/no-versioningit
 	cd $(BUILDDIR)/scratch/no-versioningit && TREEDIR=$(abspath trees) bash $(abspath $<)
 	cd $(BUILDDIR)/scratch/no-versioningit && zip -r $(abspath $@) .
+
+$(OUTDIR)/shallow.zip :
+	mkdir -p $(dir $@)
+	rm -rf $(BUILDDIR)/scratch/shallow
+	mkdir -p $(BUILDDIR)/scratch
+	git clone --depth 1 https://github.com/jwodder/versioningit-test $(BUILDDIR)/scratch/shallow
+	cd $(BUILDDIR)/scratch/shallow && zip -r $(abspath $@) .
 
 clean :
 	rm -rf $(BUILDDIR)
