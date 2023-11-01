@@ -2,13 +2,14 @@ BUILDDIR = build
 OUTDIR = $(BUILDDIR)/target
 REPODIR = $(BUILDDIR)/repos
 PATCHDIR = $(BUILDDIR)/patches
+ARCHIVEDIR = $(OUTDIR)/archives
 
 CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 
 ARCHIVE_CASES = default-tag distance exact
-ARCHIVES = $(addprefix $(OUTDIR)/archives/hg-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
-ARCHIVE_DETAILS = $(addprefix $(OUTDIR)/archives/hg-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
+ARCHIVES = $(addprefix $(ARCHIVEDIR)/hg-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
+ARCHIVE_DETAILS = $(addprefix $(ARCHIVEDIR)/hg-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
 
 all : zips details archives
 
@@ -33,12 +34,12 @@ $(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json
 	mkdir -p $(dir $@)
 	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' cases/$*.json > $@
 
-$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
+$(ARCHIVES) : $(ARCHIVEDIR)/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
 	mkdir -p $(dir $@)
 	mkdir -p $(BUILDDIR)/scratch
 	cd $< && hg archive $(abspath $(BUILDDIR)/scratch/hg-archive-$*)
 	cd $(BUILDDIR)/scratch/hg-archive-$* && zip -r $(abspath $@) .
-	cp -f $(OUTDIR)/repos/$*.json $(OUTDIR)/archives/hg-archive-$*.json
+	cp -f $(OUTDIR)/repos/$*.json $(ARCHIVEDIR)/hg-archive-$*.json
 
 $(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
 	mkdir -p $(PATCHDIR)

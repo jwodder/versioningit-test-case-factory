@@ -2,18 +2,17 @@ BUILDDIR = build
 OUTDIR = $(BUILDDIR)/target
 REPODIR = $(BUILDDIR)/repos
 PATCHDIR = $(BUILDDIR)/patches
+ARCHIVEDIR = $(OUTDIR)/archives
 
 CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 MARKS = $(wildcard *.marks)
 
-ARCHIVE_CASES = default-tag distance exact
-ARCHIVES = $(addprefix $(OUTDIR)/archives/git-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
-ARCHIVE_DETAILS = $(addprefix $(OUTDIR)/archives/git-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
+ARCHIVE_CASES = distance exact
+ARCHIVES = $(addprefix $(ARCHIVEDIR)/git-archive-,$(addsuffix .zip,$(ARCHIVE_CASES)))
+ARCHIVE_DETAILS = $(addprefix $(ARCHIVEDIR)/git-archive-,$(addsuffix .json,$(ARCHIVE_CASES)))
 
-# Git archives need special prep
-#all : zips details marks archives
-all : zips details marks
+all : zips details marks archives
 
 zips : $(addprefix $(OUTDIR)/repos/,$(addsuffix .zip,$(CASES)))
 
@@ -41,10 +40,19 @@ $(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json util/format-json.py
 $(OUTDIR)/repos/%.marks : cases/%.marks
 	cp -f $< $@
 
-$(ARCHIVES) : $(OUTDIR)/archives/git-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
+$(ARCHIVEDIR)/git-archive-distance.zip : $(REPODIR)/archive-repo
 	mkdir -p $(dir $@)
 	cd $< && git archive --format=zip -o $(abspath $@) HEAD
-	cp -f $(OUTDIR)/repos/$*.json $(OUTDIR)/archives/git-archive-$*.json
+
+$(ARCHIVEDIR)/git-archive-distance.json : $(OUTDIR)/repos/archive-repo.json
+	cp -f $< $@
+
+$(ARCHIVEDIR)/git-archive-exact.zip : $(REPODIR)/archive-repo-mixed-tags
+	mkdir -p $(dir $@)
+	cd $< && git archive --format=zip -o $(abspath $@) HEAD
+
+$(ARCHIVEDIR)/git-archive-exact.json : $(OUTDIR)/repos/archive-repo-mixed-tags.json
+	cp -f $< $@
 
 $(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
 	mkdir -p $(PATCHDIR)
