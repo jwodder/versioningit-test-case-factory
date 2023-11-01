@@ -12,33 +12,33 @@ ARCHIVE_DETAILS = $(addprefix $(OUTDIR)/archives/hg-archive-,$(addsuffix .json,$
 
 all : zips details archives
 
-zips : $(addprefix $(OUTDIR)/hg/,$(addsuffix .zip,$(CASES)))
+zips : $(addprefix $(OUTDIR)/repos/,$(addsuffix .zip,$(CASES)))
 
-details : $(addprefix $(OUTDIR)/hg/,$(addsuffix .json,$(CASES)))
+details : $(addprefix $(OUTDIR)/repos/,$(addsuffix .json,$(CASES)))
 
 archives : $(ARCHIVES) $(ARCHIVE_DETAILS)
 
-.SECONDARY : $(addprefix $(REPODIR)/hg/,$(CASES))
+.SECONDARY : $(addprefix $(REPODIR)/,$(CASES))
 
-$(REPODIR)/hg/% : %.sh $(PATCHES)
+$(REPODIR)/% : %.sh $(PATCHES)
 	rm -rf $@
 	mkdir -p $@
 	cd $@ && PATCHDIR=$(abspath $(PATCHDIR)) bash $(abspath $<)
 
-$(OUTDIR)/hg/%.zip : $(REPODIR)/hg/%
+$(OUTDIR)/repos/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
 	cd $< && zip -r $(abspath $@) .
 
-$(OUTDIR)/hg/%.json : $(REPODIR)/hg/% %.json
+$(OUTDIR)/repos/%.json : $(REPODIR)/% %.json
 	mkdir -p $(dir $@)
 	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' $*.json > $@
 
-$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/hg/% $(OUTDIR)/hg/%.json
+$(ARCHIVES) : $(OUTDIR)/archives/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
 	mkdir -p $(dir $@)
 	mkdir -p $(BUILDDIR)/scratch
 	cd $< && hg archive $(abspath $(BUILDDIR)/scratch/hg-archive-$*)
 	cd $(BUILDDIR)/scratch/hg-archive-$* && zip -r $(abspath $@) .
-	cp -f $(OUTDIR)/hg/$*.json $(OUTDIR)/archives/hg-archive-$*.json
+	cp -f $(OUTDIR)/repos/$*.json $(OUTDIR)/archives/hg-archive-$*.json
 
 $(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
 	mkdir -p $(PATCHDIR)
