@@ -97,6 +97,7 @@ class GitInfo:
     def save(self, path: Path) -> None:
         with path.open("w", encoding="utf-8") as fp:
             json.dump(asdict(self), fp, default=str)
+            print(file=fp)
 
 
 @dataclass

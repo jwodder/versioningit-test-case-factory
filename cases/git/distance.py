@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "distance"
     PATH = Path("repos", "git")
-    EXTRAS = [".json"]
+    EXTRAS = [".json", ".fields.json"]
 
     def build(self) -> None:
         git = self.git()
@@ -25,3 +25,4 @@ class TestCase(ZipCase):
                 "next_version": "0.2.0",
             },
         )
+        info.save(self.asset_path(".fields.json"))

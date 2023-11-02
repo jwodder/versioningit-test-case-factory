@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "detached-exact"
     PATH = Path("repos", "git")
-    EXTRAS = [".json"]
+    EXTRAS = [".json", ".fields.json"]
 
     def build(self) -> None:
         git = self.git()
@@ -20,3 +20,4 @@ class TestCase(ZipCase):
         git.rungit("checkout", "v0.1.0")
         git.zip()
         self.json({"version": "0.1.0", "next_version": "0.2.0"})
+        git.get_info().save(self.asset_path(".fields.json"))

@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "match"
     PATH = Path("repos", "git")
-    EXTRAS = [".json"]
+    EXTRAS = [".json", ".fields.json"]
 
     def build(self) -> None:
         git = self.git()
@@ -23,3 +23,4 @@ class TestCase(ZipCase):
         git.zip()
         info = git.get_info()
         self.json({"version": f"0.1.0.post2+g{info.rev}", "next_version": "0.2.0"})
+        info.save(self.asset_path(".fields.json"))
