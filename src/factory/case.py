@@ -142,12 +142,12 @@ class ZipCase(TestCase):
                         f"Test case {self.get_id()} failed to create extra file"
                         f" {extrafile}"
                     )
-            for p in self.target_dir.glob(f"{self.NAME}.*"):
-                ext = p.name.removeprefix(self.NAME)
-                if ext != ".zip" and ext not in self.EXTRAS:
-                    raise RuntimeError(
-                        f"Test case {self.get_id()} created unexpected extra file {p}"
-                    )
+        for p in self.target_dir.glob(f"{self.NAME}.*"):
+            ext = p.name.removeprefix(self.NAME)
+            if ext != ".zip" and ext not in (self.EXTRAS or []):
+                raise RuntimeError(
+                    f"Test case {self.get_id()} created unexpected extra file {p}"
+                )
 
     def asset_path(self, ext: str) -> Path:
         return self.target_dir / f"{self.NAME}{ext}"
