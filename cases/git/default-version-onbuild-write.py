@@ -19,6 +19,8 @@ class TestCase(ZipCase):
         self.patch("0300-default-version2")
         git.commit("Use default-version")
         self.patch("0400-write-onbuild")
+        with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
+            print("src/mypackage/_version.py", file=fp)
         git.commit("Use write & onbuild")
         git.zip()
         self.json(

@@ -20,6 +20,8 @@ class TestCase(ZipCase):
         self.patch("0400-onbuild")
         git.commit("Use onbuild")
         self.patch("0500-add-write-to-onbuild")
+        with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
+            print("src/mypackage/_version.py", file=fp)
         git.commit("Also use write")
         git.zip()
         info = git.get_info()

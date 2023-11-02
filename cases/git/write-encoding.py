@@ -16,6 +16,8 @@ class TestCase(ZipCase):
         git.commit("Packaging")
         git.tag("v0.1.0")
         self.patch("0300-write-encoding")
+        with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
+            print("src/mypackage/_version.py", file=fp)
         git.commit("Write version to .py file")
         git.zip()
         info = git.get_info()

@@ -16,6 +16,8 @@ class TestCase(ZipCase):
         git.commit("Packaging")
         git.tag("v0.1.0")
         self.patch("0300-write-txt")
+        with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
+            print("src/mypackage/version.txt", file=fp)
         git.commit("Write version to .txt file")
         git.zip()
         info = git.get_info()
