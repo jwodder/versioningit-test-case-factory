@@ -39,7 +39,7 @@ class TestCase(ZipCase):
                         "sdist_path": "src/mypackage/__init__.py",
                         "wheel_path": "mypackage/__init__.py",
                         "in_project": False,
-                        "contents": f'""" A test package """\n\n__version__ = "0.1.0.post3+g{info.rev}"\n__author__ = "John Thorvald Wodder II"\n__author_email__ = "mypackage@varonathe.org"\n__license__ = "MIT"\n',
+                        "contents": f'""" A test package """\n\n__version__ = "0.1.0.post3+g{info.rev}"\n',
                     },
                 ],
             },
