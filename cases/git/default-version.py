@@ -1,7 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
 from factory.case import ZipCase
-from factory.util import write_json
 
 
 class TestCase(ZipCase):
@@ -19,8 +18,7 @@ class TestCase(ZipCase):
         self.patch("0300-default-version")
         git.commit("Use default-version")
         git.zip()
-        write_json(
-            self.asset_path(".json"),
+        self.json(
             {
                 "version": "0.0.0+error",
                 "next_version": {
@@ -39,4 +37,4 @@ class TestCase(ZipCase):
                 ],
             },
         )
-        self.asset_path(".marks").write_text("describe_exclude\n")
+        self.marks("describe_exclude")

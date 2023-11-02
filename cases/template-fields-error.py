@@ -1,7 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
 from factory.case import ZipCase
-from factory.util import write_json
 
 
 class TestCase(ZipCase):
@@ -16,8 +15,7 @@ class TestCase(ZipCase):
         self.sync("0300-template-fields-error")
         git.commit("Set us up for failure")
         git.zip()
-        write_json(
-            self.asset_path(".json"),
+        self.json(
             {
                 "type": "InvalidVersionError",
                 "message": "'0.2.0~1' is not a valid PEP 440 version",

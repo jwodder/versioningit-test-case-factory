@@ -1,7 +1,6 @@
 from __future__ import annotations
 from pathlib import Path
 from factory.case import ZipCase
-from factory.util import write_json
 
 
 class TestCase(ZipCase):
@@ -20,10 +19,4 @@ class TestCase(ZipCase):
         self.patch("0300-hg-dirt")
         hg.runhg("addremove")
         hg.zip()
-        write_json(
-            self.asset_path(".json"),
-            {
-                "version": "0.1.0+d20380119",
-                "next_version": "0.2.0",
-            },
-        )
+        self.json({"version": "0.1.0+d20380119", "next_version": "0.2.0"})

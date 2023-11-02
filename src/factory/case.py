@@ -2,6 +2,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 import inspect
+import json
 import logging
 from pathlib import Path
 from typing import Any, ClassVar, get_origin, get_type_hints
@@ -150,3 +151,12 @@ class ZipCase(TestCase):
 
     def asset_path(self, ext: str) -> Path:
         return self.target_dir / f"{self.NAME}.{ext}"
+
+    def json(self, data: Any, ext: str = ".json") -> None:
+        with self.asset_path(ext).open("w", encoding="utf-8") as fp:
+            json.dump(data, fp, indent=4)
+
+    def marks(self, *marks: str) -> None:
+        self.asset_path(".marks").write_text(
+            "".join(f"{m}\n" for m in marks), encoding="utf-8"
+        )

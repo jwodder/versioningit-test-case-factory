@@ -1,5 +1,4 @@
 from __future__ import annotations
-import json
 import logging
 from pathlib import Path
 import shlex
@@ -39,8 +38,3 @@ def zipdir(dirpath: Path, zipfile: Path) -> None:
             for p in ip:
                 log.debug("Adding %s to zipfile", p)
                 zf.write(dirpath / p, p)
-
-
-def write_json(path: Path, obj: Any) -> None:
-    with path.open("w", encoding="utf-8") as fp:
-        json.dump(obj, fp, indent=4)
