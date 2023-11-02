@@ -21,7 +21,7 @@ class TestCase(ZipCase):
         git.commit("Set vcs.exclude")
         git.tag("v0.2.0")
         git.zip()
-        info = git.get_info()
+        info = git.get_info(exclude=["v*"])
         self.json(
             {
                 "version": f"0.1.0.post2+g{info.rev}",

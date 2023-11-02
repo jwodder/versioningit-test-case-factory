@@ -21,6 +21,6 @@ class TestCase(ZipCase):
         git.commit("Set vcs.match")
         git.tag("0.2.0")
         git.zip()
-        info = git.get_info()
+        info = git.get_info(match=["v*"])
         self.json({"version": f"0.1.0.post2+g{info.rev}", "next_version": "0.2.0"})
         info.save(self.asset_path(".fields.json"))
