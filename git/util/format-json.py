@@ -12,7 +12,6 @@ def main():
     parser.add_argument("repo", type=Path)
     parser.add_argument("infile", type=argparse.FileType("r"))
     args = parser.parse_args()
-
     # Check whether the repository has any commits in it, because if it
     # doesn't, the next command won't work.
     r = subprocess.run(
