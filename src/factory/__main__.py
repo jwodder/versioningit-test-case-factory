@@ -50,32 +50,12 @@ log = logging.getLogger()
     metavar="DIR",
 )
 @click.option(
-    "--case-dir",
+    "--suite-dir",
     type=click.Path(
         exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
     ),
-    default="cases",
-    help="Directory containing test case definitions",
-    show_default=True,
-    metavar="DIR",
-)
-@click.option(
-    "--tree-dir",
-    type=click.Path(
-        exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
-    ),
-    default="trees",
-    help="Directory containing file trees for use in building test cases",
-    show_default=True,
-    metavar="DIR",
-)
-@click.option(
-    "--patchdef-dir",
-    type=click.Path(
-        exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
-    ),
-    default="patchdefs",
-    help="Directory containing definitions for patches used in building test cases",
+    default="suite",
+    help="Directory containing the data for the test suite",
     show_default=True,
     metavar="DIR",
 )
@@ -84,9 +64,7 @@ def main(
     ctx: click.Context,
     build_dir: Path,
     target_dir: Path,
-    case_dir: Path,
-    tree_dir: Path,
-    patchdef_dir: Path,
+    suite_dir: Path,
     chdir: Path | None,
     log_level: int,
 ) -> None:
@@ -98,11 +76,7 @@ def main(
         level=log_level,
     )
     ctx.obj = CaseFactory(
-        build_dir=build_dir,
-        target_dir=target_dir,
-        case_dir=case_dir,
-        tree_dir=tree_dir,
-        patchdef_dir=patchdef_dir,
+        build_dir=build_dir, target_dir=target_dir, suite_dir=suite_dir
     )
 
 

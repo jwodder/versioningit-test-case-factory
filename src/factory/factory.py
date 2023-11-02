@@ -19,16 +19,24 @@ log = logging.getLogger()
 class CaseFactory:
     build_dir: Path
     target_dir: Path
-    case_dir: Path
-    tree_dir: Path
-    patchdef_dir: Path
+    suite_dir: Path
 
     def __post_init__(self) -> None:
         self.build_dir = self.build_dir.absolute()
         self.target_dir = self.target_dir.absolute()
-        self.case_dir = self.case_dir.absolute()
-        self.tree_dir = self.tree_dir.absolute()
-        self.patchdef_dir = self.patchdef_dir.absolute()
+        self.suite_dir = self.suite_dir.absolute()
+
+    @property
+    def case_dir(self) -> Path:
+        return self.suite_dir / "cases"
+
+    @property
+    def tree_dir(self) -> Path:
+        return self.suite_dir / "trees"
+
+    @property
+    def patchdef_dir(self) -> Path:
+        return self.suite_dir / "patchdefs"
 
     def build(self) -> None:
         self.build_dir.mkdir(parents=True, exist_ok=True)
