@@ -102,6 +102,7 @@ class CaseFactory:
 
     def gather_cases(self) -> dict[str, type[TestCase]]:
         cases = {}
+        path_names = set()
         for p in self.case_dir.rglob("*.py"):
             log.debug("Loading cases from %s ...", p)
             context: dict[str, Any] = {}
@@ -118,6 +119,12 @@ class CaseFactory:
                     if cid in cases:
                         raise RuntimeError(f"Multiple test cases found with id {cid!r}")
                     else:
+                        if (p := val.PATH / val.NAME) in path_names:
+                            raise RuntimeError(
+                                f"Multiple test cases with PATH={val.PATH} and"
+                                f" NAME={val.NAME!r}"
+                            )
+                        path_names.add(p)
                         cases[cid] = val
             if not found:
                 raise RuntimeError(f"No test cases found in case file {p}")
