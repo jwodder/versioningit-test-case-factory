@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import inspect
 import logging
 from pathlib import Path
-from typing import ClassVar, get_origin, get_type_hints
+from typing import Any, ClassVar, get_origin, get_type_hints
 from .trees import Trees
 from .vcs import Git, Mercurial
 
@@ -41,7 +41,7 @@ class TestCase(ABC):
 
     trees: Trees
 
-    def __init_subclass__(cls, **kwargs) -> None:
+    def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
             for name, ty in get_type_hints(cls).items():
@@ -81,10 +81,12 @@ class TestCase(ABC):
         return self.work_dir
 
     def git(self) -> Git:
-        return Git(path=self.work_dir, zipfile=self.zipfile)
+        return Git(path=self.work_dir, zipfile=self.target_dir / f"{self.NAME}.zip")
 
     def hg(self) -> Mercurial:
-        return Mercurial(path=self.work_dir, zipfile=self.zipfile)
+        return Mercurial(
+            path=self.work_dir, zipfile=self.target_dir / f"{self.NAME}.zip"
+        )
 
     def patch(self, patch: str) -> None:
         self.trees.apply_patch(self.mkwork(), patch)

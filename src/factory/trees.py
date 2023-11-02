@@ -48,7 +48,7 @@ class Trees:
                 pdir.rmdir()
                 pdir = pdir.parent
 
-    def get_patch(self, patch: str) -> None:
+    def get_patch(self, patch: str) -> Path:
         patchfile = self.patch_dir / f"{patch}.diff"
         if not patchfile.exists():
             log.info("Creating patch %s", patch)

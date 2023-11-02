@@ -94,7 +94,7 @@ def main(
         target_dir=target_dir,
         case_dir=case_dir,
         tree_dir=tree_dir,
-        pathdef_dir=patchdef_dir,
+        patchdef_dir=patchdef_dir,
     )
 
 

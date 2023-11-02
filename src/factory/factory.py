@@ -24,8 +24,8 @@ class CaseFactory:
     patchdef_dir: Path
 
     def build(self) -> None:
-        self.build_dir.mkdir(parent=True, exist_ok=True)
-        self.target_dir.mkdir(parent=True, exist_ok=True)
+        self.build_dir.mkdir(parents=True, exist_ok=True)
+        self.target_dir.mkdir(parents=True, exist_ok=True)
         patchdefs = self.gather_patchdefs()
         trees = Trees(
             tree_dir=self.tree_dir,
@@ -34,7 +34,7 @@ class CaseFactory:
         )
         cases = self.gather_cases()
         depmap: dict[str, list[str]] = defaultdict(list)
-        for c in cases:
+        for c in cases.values():
             cname = c.get_id()
             for dep in c.DEPENDENCIES or []:
                 if dep not in cases:
@@ -60,7 +60,7 @@ class CaseFactory:
                 cobj.run()
             except Exception:
                 log.exception("Test case %s failed", cid)
-                if work_dir.exist():
+                if work_dir.exists():
                     crash_dir = self.build_dir / "crash"
                     crash_dir.mkdir(parents=True, exist_ok=True)
                     now = datetime.now(timezone.utc)
@@ -81,11 +81,11 @@ class CaseFactory:
                 patchdefs[p.stem] = pdef
         return patchdefs
 
-    def gather_cases(self) -> list[type[TestCase]]:
+    def gather_cases(self) -> dict[str, type[TestCase]]:
         cases = {}
         for p in self.case_dir.rglob("*.py"):
             context: dict[str, Any] = {}
-            exec(p.read_text(encoding="utf-8"), globals=context)
+            exec(p.read_text(encoding="utf-8"), context)
             found = False
             for val in context.values():
                 if issubclass(val, TestCase):
