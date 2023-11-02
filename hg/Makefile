@@ -41,9 +41,10 @@ $(ARCHIVES) : $(ARCHIVEDIR)/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.js
 	cd $(BUILDDIR)/scratch/hg-archive-$* && zip -r $(abspath $@) .
 	cp -f $(OUTDIR)/repos/$*.json $(ARCHIVEDIR)/hg-archive-$*.json
 
-$(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
+$(PATCHDIR)/0100-code.diff : trees/0100-code
+	mkdir -p trees/0000
 	mkdir -p $(PATCHDIR)
-	-diff -Naur $^ > $@
+	-diff -Naur trees/0000 $< > $@
 
 $(PATCHDIR)/0200-packaged.diff : trees/0100-code trees/0200-packaged
 	mkdir -p $(PATCHDIR)

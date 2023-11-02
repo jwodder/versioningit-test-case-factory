@@ -57,9 +57,10 @@ $(ARCHIVEDIR)/git-archive-exact.zip : $(REPODIR)/archive-repo-mixed-tags
 $(ARCHIVEDIR)/git-archive-exact.json : $(OUTDIR)/repos/archive-repo-mixed-tags.json
 	cp -f $< $@
 
-$(PATCHDIR)/0100-code.diff : trees/0000 trees/0100-code
+$(PATCHDIR)/0100-code.diff : trees/0100-code
+	mkdir -p trees/0000
 	mkdir -p $(PATCHDIR)
-	-diff -Naur $^ > $@
+	-diff -Naur trees/0000 $< > $@
 
 $(PATCHDIR)/0200-packaged.diff : trees/0100-code trees/0200-packaged
 	mkdir -p $(PATCHDIR)
