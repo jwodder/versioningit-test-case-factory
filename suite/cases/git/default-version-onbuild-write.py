@@ -1,4 +1,3 @@
-#!/bin/bash
 from __future__ import annotations
 from pathlib import Path
 from factory.case import ZipCase
