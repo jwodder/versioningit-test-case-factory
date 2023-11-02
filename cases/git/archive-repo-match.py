@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "archive-repo-match"
     PATH = Path("repos", "git")
-    EXTRAS = [".json", ".marks"]
+    EXTRAS = [".json"]
 
     def build(self) -> None:
         git = self.git()
@@ -28,4 +28,3 @@ class TestCase(ZipCase):
                 "next_version": "0.2.0",
             },
         )
-        self.marks("describe_exclude")
