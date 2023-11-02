@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections.abc import Iterator
 import logging
 import os
 from pathlib import Path
@@ -135,35 +136,25 @@ def clean(factory: CaseFactory) -> None:
 def compare(factory: CaseFactory, diff_dir: Path, versioningit_repo: Path) -> None:
     with tempfile.TemporaryDirectory() as tmpdir:
         comparer = Comparer(workdir=Path(tmpdir), diffdir=diff_dir)
-        test_data = versioningit_repo / "test" / "data"
-        selector = SelectGlob("*.tar.gz") | SelectGlob("*.zip")
-        new_assets = {}
-        with iterpath(
-            factory.target_dir, dirs=False, filter_files=selector, return_relative=True
-        ) as ip:
-            for p in ip:
-                if m := re.fullmatch(r"(?P<name>[^-]+)-[^-]+\.tar\.gz", p.name):
-                    key = p.parent / f"{m['name']}-*.tar.gz"
-                else:
-                    key = p
-                assert key not in new_assets
-                new_assets[key] = factory.target_dir / p
-        with iterpath(
-            test_data, dirs=False, filter_files=selector, return_relative=True
-        ) as ip:
-            for p in ip:
-                if m := re.fullmatch(r"(?P<name>[^-]+)-[^-]+\.tar\.gz", p.name):
-                    key = p.parent / m["name"]
-                else:
-                    key = p
-                if key not in new_assets:
-                    log.warning(
-                        "Asset %s is in versioningit but not in target dir", key
-                    )
-                else:
-                    comparer(str(key), test_data / p, new_assets.pop(key))
+        new_assets = dict(iter_archives(factory.target_dir))
+        for key, p in iter_archives(versioningit_repo / "test" / "data"):
+            if key not in new_assets:
+                log.warning("Asset %s is in versioningit but not in target dir", key)
+            else:
+                comparer(key, p, new_assets.pop(key))
         for key in new_assets:
             log.warning("Asset %s is in target dir but not in versioningit", key)
+
+
+def iter_archives(path: Path) -> Iterator[tuple[str, Path]]:
+    selector = SelectGlob("*.tar.gz") | SelectGlob("*.zip")
+    with iterpath(path, dirs=False, filter_files=selector, return_relative=True) as ip:
+        for p in ip:
+            if m := re.fullmatch(r"(?P<name>[^-]+)-[^-]+\.tar\.gz", p.name):
+                key = p.parent / f"{m['name']}-*.tar.gz"
+            else:
+                key = p
+            yield (key.as_posix(), path / p)
 
 
 if __name__ == "__main__":
