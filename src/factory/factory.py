@@ -23,6 +23,13 @@ class CaseFactory:
     tree_dir: Path
     patchdef_dir: Path
 
+    def __post_init__(self) -> None:
+        self.build_dir = self.build_dir.absolute()
+        self.target_dir = self.target_dir.absolute()
+        self.case_dir = self.case_dir.absolute()
+        self.tree_dir = self.tree_dir.absolute()
+        self.patchdef_dir = self.patchdef_dir.absolute()
+
     def build(self) -> None:
         self.build_dir.mkdir(parents=True, exist_ok=True)
         self.target_dir.mkdir(parents=True, exist_ok=True)
