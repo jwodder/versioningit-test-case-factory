@@ -129,12 +129,15 @@ class Mercurial:
             template = "{latesttag() % '{tag}:{changes}:{node}\n'}"
         else:
             template = "{latesttag(" + repr(pattern) + ") % '{tag}:{changes}:{node}\n'}"
-        _tag, sdistance, revision = (
+        tag, sdistance, revision = (
             readcmd("hg", "log", "-r", ".", "--template", template, cwd=self.path)
             .splitlines()[0]
             .split(":")
         )
         distance = int(sdistance)
+        if tag == "null" and distance > 0:
+            # Pretend first commit has default tag
+            distance -= 1
         rev = readcmd("hg", "id", "-i", cwd=self.path).removesuffix("+")
         return HGInfo(
             distance=distance,

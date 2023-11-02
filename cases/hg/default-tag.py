@@ -7,7 +7,7 @@ class TestCase(ZipCase):
     ID = "hg-default-tag"
     NAME = "default-tag"
     PATH = Path("repos", "hg")
-    EXTRAS = [".json"]
+    EXTRAS = [".json", ".fields.json"]
 
     def build(self) -> None:
         hg = self.hg()
@@ -25,3 +25,4 @@ class TestCase(ZipCase):
                 "next_version": "0.1.0",
             },
         )
+        info.save(self.asset_path(".fields.json"))

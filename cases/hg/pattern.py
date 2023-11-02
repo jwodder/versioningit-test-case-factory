@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "pattern"
     PATH = Path("repos", "hg")
-    EXTRAS = [".json"]
+    EXTRAS = [".json", ".fields.json"]
 
     def build(self) -> None:
         hg = self.hg()
@@ -21,10 +21,11 @@ class TestCase(ZipCase):
         hg.commit("Set vcs.pattern")
         hg.tag("0.2.0")
         hg.zip()
-        info = hg.get_info()
+        info = hg.get_info(pattern="re:^v")
         self.json(
             {
                 "version": f"0.1.0.post4+h{info.rev}",
                 "next_version": "0.2.0",
             },
         )
+        info.save(self.asset_path(".fields.json"))
