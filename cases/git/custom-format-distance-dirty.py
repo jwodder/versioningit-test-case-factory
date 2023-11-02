@@ -23,7 +23,7 @@ class TestCase(ZipCase):
         info = git.get_info()
         self.json(
             {
-                "version": f"0.2.0.dev1.g{info.rev}.dirty",
+                "version": f"0.2.0.dev1+g{info.rev}.dirty",
                 "next_version": "0.2.0",
             },
         )

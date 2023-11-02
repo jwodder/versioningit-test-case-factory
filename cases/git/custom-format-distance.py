@@ -21,4 +21,4 @@ class TestCase(ZipCase):
         git.commit("Configure custom version formats")
         git.zip()
         info = git.get_info()
-        self.json({"version": f"0.2.0.dev2.g{info.rev}", "next_version": "0.2.0"})
+        self.json({"version": f"0.2.0.dev2+g{info.rev}", "next_version": "0.2.0"})
