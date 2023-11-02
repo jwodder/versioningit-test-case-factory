@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import re
 from .util import readcmd, runcmd, zipdir
+from importlib.resources import files
+import shutil
 
 BUILD_DATE = datetime(2038, 1, 19, 3, 14, 7, tzinfo=timezone.utc)
 
@@ -17,6 +19,9 @@ class Git:
 
     def __post_init__(self) -> None:
         runcmd("git", "init", "-b", "main", "--", self.path)
+        with (files("factory") / "data" / "gitignore").open(encoding="utf-8") as src:
+            with (self.path / ".gitignore").open("w", encoding="utf-8") as dest:
+                shutil.copyfileobj(src, dest)
 
     def rungit(self, *args: str) -> None:
         runcmd("git", *args, cwd=self.path)
@@ -100,6 +105,9 @@ class Mercurial:
 
     def __post_init__(self) -> None:
         runcmd("hg", "init", "--", self.path)
+        with (files("factory") / "data" / "hgignore").open(encoding="utf-8") as src:
+            with (self.path / ".hgignore").open("w", encoding="utf-8") as dest:
+                shutil.copyfileobj(src, dest)
 
     def runhg(self, *args: str) -> None:
         runcmd("hg", *args, cwd=self.path)
