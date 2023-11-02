@@ -81,8 +81,11 @@ def main(
 
 
 @main.command()
+@click.option("--clean", is_flag=True, help="Run `clean` before building")
 @click.pass_obj
-def build(factory: CaseFactory) -> None:
+def build(factory: CaseFactory, clean: bool) -> None:
+    if clean:
+        factory.clean()
     factory.build()
 
 
