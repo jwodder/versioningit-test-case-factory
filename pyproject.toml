@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "factory"
+version = "0.0.0"
+description = "Building test case repositories for versioningit"
+#readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = { paths = ["LICENSE"] }
+authors = [
+    { name = "John Thorvald Wodder II", email = "test-case-factory@varonathe.org" }
+]
+
+keywords = [
+    "packaging",
+    "test case",
+    "versioningit",
+]
+
+classifiers = [
+    "Private :: Keep Off PyPI",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "License :: OSI Approved :: MIT License",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "click ~= 8.0",
+    "click-loglevel ~= 0.5",
+    "iterpath ~= 0.3",
+    "pydantic ~= 2.0",
+]
+
+[project.scripts]
+factory = "factory.__main__:main"
+
+[project.urls]
+"Source Code" = "https://github.com/jwodder/versioningit-test-case-factory"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/test",
+    "CHANGELOG.*",
+    "CONTRIBUTORS.*",
+    "setup.cfg",
+    "tox.ini",
+]
+
+[tool.hatch.envs.default]
+python = "3"
