@@ -15,7 +15,5 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("v0.1.0", message="v0.1.0")
-        self.patch("0300-feature")
-        git.commit("Add a feature")
         git.zip()
         self.json({"version": "0.1.0", "next_version": "0.2.0"})
