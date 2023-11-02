@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "factory"
 version = "0.0.0"
 description = "Building test case repositories for versioningit"
-#readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"
 license-files = { paths = ["LICENSE"] }
