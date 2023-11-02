@@ -4,6 +4,7 @@ import logging
 import os
 from pathlib import Path
 import re
+import shutil
 import tempfile
 import click
 from click_loglevel import LogLevel
@@ -115,6 +116,30 @@ def build(factory: CaseFactory) -> None:
 @click.pass_obj
 def clean(factory: CaseFactory) -> None:
     factory.clean()
+
+
+@main.command()
+@click.argument(
+    "versioningit-repo",
+    type=click.Path(
+        exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
+    ),
+)
+@click.pass_obj
+def deploy(factory: CaseFactory, versioningit_repo: Path) -> None:
+    data_dir = versioningit_repo / "test" / "data"
+    for p in data_dir.glob("*.tar.gz"):
+        log.debug("Removing %s", p)
+        p.unlink()
+    log.debug("Removing %s directory", data_dir / "repos")
+    shutil.rmtree(data_dir / "repos")
+    with iterpath(factory.target_dir, dirs=False, return_relative=True) as ip:
+        for p in ip:
+            src = factory.target_dir / p
+            dest = data_dir / p
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            log.debug("Moving %s to %s", src, dest)
+            src.rename(dest)
 
 
 @main.command()
