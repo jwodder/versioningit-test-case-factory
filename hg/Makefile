@@ -32,7 +32,7 @@ $(OUTDIR)/repos/%.zip : $(REPODIR)/%
 
 $(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json
 	mkdir -p $(dir $@)
-	awk -v hash="$$(cd $<; hg id -i)" '{ sub("{hash}", hash); print }' cases/$*.json > $@
+	awk -v hash="$$(cd $<; hg id -i | tr -d +)" '{ sub("{hash}", hash); print }' cases/$*.json > $@
 
 $(ARCHIVES) : $(ARCHIVEDIR)/hg-archive-%.zip : $(REPODIR)/% $(OUTDIR)/repos/%.json
 	mkdir -p $(dir $@)

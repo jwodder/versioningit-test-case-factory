@@ -3,8 +3,12 @@ set -ex
 
 git init -b main
 
-rsync -vaz "$TREEDIR"/no-versioningit/ .
+rsync -vaz "$TREEDIR"/unpackaged/ .
 git add .
-git commit -m "Packaging without versioningit"
+git commit -m "Code"
 
-git tag v0.1.0
+git tag v0.0.0
+
+rsync -vaz --exclude=.git --delete "$TREEDIR"/no-versioningit/ .
+git add -A
+git commit -m "Packaging without versioningit"
