@@ -30,7 +30,6 @@ def zipdir(dirpath: Path, zipfile: Path) -> None:
     with ZipFile(zipfile, mode="w") as zf:
         with iterpath(
             dirpath,
-            dirs=False,
             return_relative=True,
             sort=True,
             exclude_files=SelectGlob("*.sample"),
