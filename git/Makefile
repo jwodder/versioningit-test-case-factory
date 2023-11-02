@@ -4,6 +4,8 @@ REPODIR = $(BUILDDIR)/repos
 PATCHDIR = $(BUILDDIR)/patches
 ARCHIVEDIR = $(OUTDIR)/archives
 
+ZIP_GIT_REPO = ../util/zip-git-repo.sh
+
 CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 PATCHES = $(addprefix $(PATCHDIR)/,$(addsuffix .diff,$(notdir $(wildcard trees/*-*))))
 MARKS = $(notdir $(wildcard cases/*.marks))
@@ -34,7 +36,7 @@ $(REPODIR)/% : cases/%.sh $(PATCHES)
 
 $(OUTDIR)/repos/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
-	cd $< && zip -r $(abspath $@) .
+	$(ZIP_GIT_REPO) $< $(abspath $@)
 
 $(OUTDIR)/repos/%.json : $(REPODIR)/% cases/%.json util/format-json.py
 	mkdir -p $(dir $@)

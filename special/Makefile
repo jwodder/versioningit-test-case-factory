@@ -2,6 +2,8 @@ BUILDDIR = build
 OUTDIR = $(BUILDDIR)/target
 REPODIR = $(BUILDDIR)/repos
 
+ZIP_GIT_REPO = ../util/zip-git-repo.sh
+
 CASES = $(basename $(notdir $(wildcard cases/*.sh)))
 EXTRA = $(notdir $(wildcard cases/*.json) $(wildcard cases/*.marks))
 
@@ -20,7 +22,7 @@ $(REPODIR)/% : cases/%.sh
 
 $(OUTDIR)/%.zip : $(REPODIR)/%
 	mkdir -p $(dir $@)
-	cd $< && zip -r $(abspath $@) .
+	$(ZIP_GIT_REPO) $< $(abspath $@)
 
 $(OUTDIR)/%.json : cases/%.json
 	cp -f $< $@
@@ -37,7 +39,7 @@ $(OUTDIR)/shallow.zip :
 	mkdir -p $(REPODIR)
 	git clone --depth 1 https://github.com/jwodder/versioningit-test $(REPODIR)/shallow
 	mkdir -p $(dir $@)
-	cd $(REPODIR)/shallow && zip -r $(abspath $@) .
+	$(ZIP_GIT_REPO) $(REPODIR)/shallow $(abspath $@)
 
 clean :
 	rm -rf $(BUILDDIR)
