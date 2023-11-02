@@ -72,7 +72,9 @@ class CaseFactory:
             completed[cid] = cobj
 
     def clean(self) -> None:
+        log.info("Removing %s ...", self.build_dir)
         shutil.rmtree(self.build_dir)
+        log.info("Removing %s ...", self.target_dir)
         shutil.rmtree(self.target_dir)
 
     def gather_patchdefs(self) -> dict[str, PatchDef]:

@@ -2,9 +2,15 @@ from __future__ import annotations
 import logging
 import os
 from pathlib import Path
+import re
+import tempfile
 import click
 from click_loglevel import LogLevel
+from iterpath import SelectGlob, iterpath
+from .compare import Comparer
 from .factory import CaseFactory
+
+log = logging.getLogger()
 
 
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
@@ -108,3 +114,57 @@ def build(factory: CaseFactory) -> None:
 @click.pass_obj
 def clean(factory: CaseFactory) -> None:
     factory.clean()
+
+
+@main.command()
+@click.option(
+    "--diff-dir",
+    type=click.Path(file_okay=False, dir_okay=True, writable=True, path_type=Path),
+    default="diffs",
+    help="Directory in which to store diffs",
+    show_default=True,
+    metavar="DIR",
+)
+@click.argument(
+    "versioningit-repo",
+    type=click.Path(
+        exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
+    ),
+)
+@click.pass_obj
+def compare(factory: CaseFactory, diff_dir: Path, versioningit_repo: Path) -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        comparer = Comparer(workdir=Path(tmpdir), diffdir=diff_dir)
+        test_data = versioningit_repo / "test" / "data"
+        selector = SelectGlob("*.tar.gz") | SelectGlob("*.zip")
+        new_assets = {}
+        with iterpath(
+            factory.target_dir, dirs=False, filter_files=selector, return_relative=True
+        ) as ip:
+            for p in ip:
+                if m := re.fullmatch(r"(?P<name>[^-]+)-[^-]+\.tar\.gz", p.name):
+                    key = p.parent / f"{m['name']}-*.tar.gz"
+                else:
+                    key = p
+                assert key not in new_assets
+                new_assets[key] = factory.target_dir / p
+        with iterpath(
+            test_data, dirs=False, filter_files=selector, return_relative=True
+        ) as ip:
+            for p in ip:
+                if m := re.fullmatch(r"(?P<name>[^-]+)-[^-]+\.tar\.gz", p.name):
+                    key = p.parent / m["name"]
+                else:
+                    key = p
+                if key not in new_assets:
+                    log.warning(
+                        "Asset %s is in versioningit but not in target dir", key
+                    )
+                else:
+                    comparer(str(key), test_data / p, new_assets.pop(key))
+        for key in new_assets:
+            log.warning("Asset %s is in target dir but not in versioningit", key)
+
+
+if __name__ == "__main__":
+    main()

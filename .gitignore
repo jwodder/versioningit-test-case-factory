@@ -10,6 +10,7 @@
 .tox/
 __pycache__/
 build/
+diffs/
 dist/
 docs/.doctrees/
 docs/_build/
