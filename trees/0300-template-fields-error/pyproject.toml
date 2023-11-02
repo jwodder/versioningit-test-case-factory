@@ -3,9 +3,9 @@ requires = ["setuptools >= 46.4.0", "versioningit"]
 build-backend = "setuptools.build_meta"
 
 [tool.versioningit.format]
-distance = "{next_version}~{distance}"
+distance = "{next_version}~{vcs}{rev}"
 dirty = "{version}~dirty"
-distance-dirty = "{next_version}~{distance}.dirty"
+distance-dirty = "{next_version}~{vcs}{rev}.dirty"
 
 [tool.versioningit.template-fields]
 version-tuple = { pep440 = true }

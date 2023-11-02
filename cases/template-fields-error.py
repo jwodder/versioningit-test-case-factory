@@ -6,6 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "template-fields-error"
     PATH = Path("repos", "errors")
+    EXTRAS = [".json"]
 
     def build(self) -> None:
         git = self.git()
@@ -15,9 +16,10 @@ class TestCase(ZipCase):
         self.sync("0300-template-fields-error")
         git.commit("Set us up for failure")
         git.zip()
+        info = git.get_info()
         self.json(
             {
                 "type": "InvalidVersionError",
-                "message": "'0.2.0~1' is not a valid PEP 440 version",
+                "message": f"'0.2.0~g{info.rev}' is not a valid PEP 440 version",
             },
         )
