@@ -68,6 +68,12 @@ def main(
     chdir: Path | None,
     log_level: int,
 ) -> None:
+    """
+    Building test case repositories for versioningit.
+
+    Visit <https://github.com/jwodder/versioningit-test-case-factory> for more
+    information.
+    """
     if chdir is not None:
         os.chdir(chdir)
     logging.basicConfig(
