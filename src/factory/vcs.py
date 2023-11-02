@@ -106,7 +106,7 @@ class Mercurial:
     zipfile: Path
 
     def __post_init__(self) -> None:
-        runcmd("hg", "init", "--", self.path)
+        runcmd("hg", "--config", "format.use-share-safe=false", "init", "--", self.path)
         with (files("factory") / "data" / "hgignore").open(encoding="utf-8") as src:
             with (self.path / ".hgignore").open("w", encoding="utf-8") as dest:
                 shutil.copyfileobj(src, dest)
