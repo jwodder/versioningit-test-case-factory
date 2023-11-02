@@ -1,4 +1,0 @@
-{
-    "before": "0300-default-version2",
-    "after": "0400-write-onbuild"
-}

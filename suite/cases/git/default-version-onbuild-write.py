@@ -15,12 +15,10 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("0.1.0")
-        self.patch("0300-default-version2")
-        git.commit("Use default-version")
-        self.patch("0400-write-onbuild")
+        self.sync("0300-default-version-onbuild-write")
         with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
             print("src/mypackage/_version.py", file=fp)
-        git.commit("Use write & onbuild")
+        git.commit("Use write, onbuild, and default-version")
         git.zip()
         self.json(
             {
