@@ -96,7 +96,7 @@ class GitInfo:
 
     def save(self, path: Path) -> None:
         with path.open("w", encoding="utf-8") as fp:
-            json.dump(asdict(self), fp, default=str)
+            json.dump(asdict(self), fp, default=str, indent=4)
             print(file=fp)
 
 
@@ -154,7 +154,8 @@ class HGInfo:
 
     def save(self, path: Path) -> None:
         with path.open("w", encoding="utf-8") as fp:
-            json.dump(asdict(self), fp, default=str)
+            json.dump(asdict(self), fp, default=str, indent=4)
+            print(file=fp)
 
 
 def zip_git(repo: Path, zipfile: Path) -> None:
