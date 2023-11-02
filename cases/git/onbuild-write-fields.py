@@ -4,6 +4,7 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    ID = "onbuild-write-fields"
     NAME = "onbuild-write-fields"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

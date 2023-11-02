@@ -1,8 +1,8 @@
 from __future__ import annotations
-from collections import defaultdict
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from graphlib import TopologicalSorter
+import inspect
 import json
 import logging
 from pathlib import Path
@@ -33,9 +33,10 @@ class CaseFactory:
             patchdefs=patchdefs,
         )
         cases = self.gather_cases()
-        depmap: dict[str, list[str]] = defaultdict(list)
+        depmap: dict[str, list[str]] = {}
         for c in cases.values():
             cname = c.get_id()
+            depmap[cname] = []
             for dep in c.DEPENDENCIES or []:
                 if dep not in cases:
                     raise RuntimeError(
@@ -43,7 +44,7 @@ class CaseFactory:
                     )
                 depmap[cname].append(dep)
         sorter = TopologicalSorter(depmap)
-        completed: dict[str, TestCase]
+        completed: dict[str, TestCase] = {}
         for cid in sorter.static_order():
             c = cases[cid]
             target = self.target_dir / c.PATH
@@ -68,6 +69,7 @@ class CaseFactory:
                     work_dir.rename(crash_dir / name)
                     log.info("Test case work directory saved at %s", crash_dir / name)
                 sys.exit(1)
+            completed[cid] = cobj
 
     def clean(self) -> None:
         shutil.rmtree(self.build_dir)
@@ -84,11 +86,16 @@ class CaseFactory:
     def gather_cases(self) -> dict[str, type[TestCase]]:
         cases = {}
         for p in self.case_dir.rglob("*.py"):
+            log.debug("Loading cases from %s ...", p)
             context: dict[str, Any] = {}
             exec(p.read_text(encoding="utf-8"), context)
             found = False
             for val in context.values():
-                if issubclass(val, TestCase):
+                if (
+                    inspect.isclass(val)
+                    and not inspect.isabstract(val)
+                    and issubclass(val, TestCase)
+                ):
                     found = True
                     cid = val.get_id()
                     if cid in cases:

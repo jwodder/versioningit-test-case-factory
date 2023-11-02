@@ -45,7 +45,7 @@ class TestCase(ABC):
     def __init_subclass__(cls, **kwargs: Any) -> None:
         super().__init_subclass__(**kwargs)
         if not inspect.isabstract(cls):
-            for name, ty in get_type_hints(cls).items():
+            for name, ty in get_type_hints(cls, globalns=globals()).items():
                 if get_origin(ty) is ClassVar and not hasattr(cls, name):
                     raise ValueError(f"ClassVar {name} not set on {cls.__name__}")
 
@@ -144,13 +144,13 @@ class ZipCase(TestCase):
                     )
             for p in self.target_dir.glob(f"{self.NAME}.*"):
                 ext = p.name.removeprefix(self.NAME)
-                if ext not in self.EXTRAS:
+                if ext != ".zip" and ext not in self.EXTRAS:
                     raise RuntimeError(
                         f"Test case {self.get_id()} created unexpected extra file {p}"
                     )
 
     def asset_path(self, ext: str) -> Path:
-        return self.target_dir / f"{self.NAME}.{ext}"
+        return self.target_dir / f"{self.NAME}{ext}"
 
     def json(self, data: Any, ext: str = ".json") -> None:
         with self.asset_path(ext).open("w", encoding="utf-8") as fp:

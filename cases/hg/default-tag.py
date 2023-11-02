@@ -4,6 +4,7 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    ID = "hg-default-tag"
     NAME = "default-tag"
     PATH = Path("repos", "hg")
     EXTRAS = [".json"]

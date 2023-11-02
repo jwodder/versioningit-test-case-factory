@@ -54,15 +54,16 @@ class Git:
         m = re.fullmatch(
             r"(?P<tag>.+)-(?P<distance>[0-9]+)-g(?P<rev>[0-9a-f]+)?", describe
         )
-        if not m:
-            raise ValueError(
-                f"Could not parse `git describe` output for {self.path}: {describe!r}"
+        if m:
+            distance = int(m["distance"])
+            rev = m["rev"]
+            assert isinstance(rev, str)
+        else:
+            # No tag
+            distance = (
+                int(readcmd("git", "rev-list", "--count", "HEAD", cwd=self.path)) - 1
             )
-        tag = m["tag"]
-        assert isinstance(tag, str)
-        distance = int(m["distance"])
-        rev = m["rev"]
-        assert isinstance(rev, str)
+            rev = describe
         revision, author_ts, committer_ts = readcmd(
             "git",
             "--no-pager",

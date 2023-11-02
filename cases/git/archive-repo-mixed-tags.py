@@ -4,6 +4,7 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    ID = "git-archive-repo-mixed-tags"
     NAME = "archive-repo-mixed-tags"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]
