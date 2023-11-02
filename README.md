@@ -15,7 +15,6 @@ test cases requires the following external programs:
 - Mercurial
 - `diff`
 - `patch`
-- `rsync`
 
 Usage
 =====

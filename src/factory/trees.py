@@ -2,10 +2,11 @@ from __future__ import annotations
 from dataclasses import dataclass
 import logging
 from pathlib import Path
+import shutil
 import subprocess
-from iterpath import SELECT_VCS_DIRS, iterpath
+from iterpath import SELECT_VCS, SELECT_VCS_DIRS, iterpath
 from pydantic import BaseModel
-from .util import runcmd
+from .util import rm_to_root, runcmd
 
 log = logging.getLogger()
 
@@ -42,11 +43,7 @@ class Trees:
         with iterpath(dirpath, dirs=False, exclude_dirs=SELECT_VCS_DIRS) as ip:
             emptyfiles = [p for p in ip if p.stat().st_size == 0]
         for p in emptyfiles:
-            p.unlink()
-            pdir = p.parent
-            while not any(pdir.iterdir()) and pdir != dirpath:
-                pdir.rmdir()
-                pdir = pdir.parent
+            rm_to_root(p, dirpath)
 
     def get_patch(self, patch: str) -> Path:
         patchfile = self.patch_dir / f"{patch}.diff"
@@ -74,17 +71,18 @@ class Trees:
     def sync_dir(self, dirpath: Path, tree: str) -> None:
         """
         Make the contents of ``dirpath`` identical to those of the given tree,
-        preserving any Git and Mercurial files already there
+        preserving any VCS files already present
         """
+        log.debug("Purging %s before applying tree %s ...", dirpath, tree)
+        with iterpath(dirpath, dirs=False, exclude=SELECT_VCS) as ip:
+            to_delete = list(ip)
+        for p in to_delete:
+            rm_to_root(p, dirpath)
+        log.debug("Applying tree %s to %s ...", tree, dirpath)
         treedir = self.tree_dir / tree
-        runcmd(
-            "rsync",
-            "-va",
-            "--exclude=.git",
-            "--exclude=.gitignore",
-            "--exclude=.hg",
-            "--exclude=.hgignore",
-            "--delete",
-            f"{treedir}/",
-            str(dirpath),
-        )
+        with iterpath(treedir, dirs=False, return_relative=True) as ip:
+            for p in ip:
+                src = treedir / p
+                dest = dirpath / p
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(src, dest)
