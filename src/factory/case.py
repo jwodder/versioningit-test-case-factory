@@ -155,6 +155,7 @@ class ZipCase(TestCase):
     def json(self, data: Any, ext: str = ".json") -> None:
         with self.asset_path(ext).open("w", encoding="utf-8") as fp:
             json.dump(data, fp, indent=4)
+            print(file=fp)
 
     def marks(self, *marks: str) -> None:
         self.asset_path(".marks").write_text(
