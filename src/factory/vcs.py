@@ -2,12 +2,12 @@ from __future__ import annotations
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
+from importlib.resources import files
 import json
 from pathlib import Path
 import re
-from .util import readcmd, runcmd, zipdir
-from importlib.resources import files
 import shutil
+from .util import readcmd, runcmd, zipdir
 
 BUILD_DATE = datetime(2038, 1, 19, 3, 14, 7, tzinfo=timezone.utc)
 
@@ -30,7 +30,7 @@ class Git:
         self.rungit("add", "-A")
         self.rungit("commit", "-m", message)
 
-    def tag(self, name: str, message: str | None) -> None:
+    def tag(self, name: str, message: str | None = None) -> None:
         cmd = ["tag"]
         if message is not None:
             cmd.extend(["-m", message])

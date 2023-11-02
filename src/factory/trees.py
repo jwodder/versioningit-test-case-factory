@@ -74,14 +74,16 @@ class Trees:
     def sync_dir(self, dirpath: Path, tree: str) -> None:
         """
         Make the contents of ``dirpath`` identical to those of the given tree,
-        preserving any :file:`.git/` and :file:`.hg/` directories already there
+        preserving any Git and Mercurial files already there
         """
         treedir = self.tree_dir / tree
         runcmd(
             "rsync",
             "-va",
             "--exclude=.git",
+            "--exclude=.gitignore",
             "--exclude=.hg",
+            "--exclude=.hgignore",
             "--delete",
             f"{treedir}/",
             str(dirpath),

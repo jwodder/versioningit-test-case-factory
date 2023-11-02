@@ -35,6 +35,7 @@ classifiers = [
 ]
 
 dependencies = [
+    "build ~= 1.0",
     "click ~= 8.0",
     "click-loglevel ~= 0.5",
     "iterpath ~= 0.3",

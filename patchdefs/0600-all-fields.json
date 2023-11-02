@@ -1,0 +1,4 @@
+{
+    "before": "0500-add-write-to-onbuild",
+    "after": "0600-all-fields"
+}
