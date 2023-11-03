@@ -8,10 +8,10 @@ from factory.case import SdistCase
 class TestCase(SdistCase):
     NAME = "mypackage-*.tar.gz"
     PATH = Path()
-    DEPENDENCIES = ["onbuild-write-fields"]
+    DEPENDENCIES = ["onbuild-write"]
 
     def build(self) -> None:
-        repopath = self.dependencies["onbuild-write-fields"].work_dir
+        repopath = self.dependencies["onbuild-write"].work_dir
         with DefaultIsolatedEnv() as env:
             builder = ProjectBuilder.from_isolated_env(env, repopath)
             env.install(builder.build_system_requires)
