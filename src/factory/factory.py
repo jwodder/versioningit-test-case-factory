@@ -54,7 +54,7 @@ class CaseFactory:
             c = cases[cid]
             target = self.target_dir / c.PATH
             target.mkdir(parents=True, exist_ok=True)
-            work_dir = self.build_dir / "work" / cid
+            work_dir = self.build_dir / cid
             dependencies = {dep: completed[dep] for dep in (c.DEPENDENCIES or [])}
             cobj = c(
                 target_dir=target,
