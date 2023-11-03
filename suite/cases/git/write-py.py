@@ -15,7 +15,7 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("v0.1.0")
-        self.patch("0300-write-py")
+        self.sync("0300-write-py")
         with (self.work_dir / ".gitignore").open("a", encoding="utf-8") as fp:
             print("src/mypackage/_version.py", file=fp)
         git.commit("Write version to .py file")

@@ -16,10 +16,8 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("v0.1.0", message="Version 0.1.0")
-        self.patch("0300-archive-tags")
+        self.sync("0300-archive-tags")
         git.commit("Switch to git-archive")
-        self.patch("0300-feature")
-        git.commit("Add a feature")
         git.tag("v0.2.0")
         git.zip()
         self.json(

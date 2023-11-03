@@ -3,14 +3,13 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from graphlib import TopologicalSorter
 import inspect
-import json
 import logging
 from pathlib import Path
 import shutil
 import sys
 from typing import Any
 from .case import TestCase
-from .trees import PatchDef, Trees
+from .trees import Trees
 
 log = logging.getLogger()
 
@@ -34,19 +33,10 @@ class CaseFactory:
     def tree_dir(self) -> Path:
         return self.suite_dir / "trees"
 
-    @property
-    def patchdef_dir(self) -> Path:
-        return self.suite_dir / "patchdefs"
-
     def build(self) -> None:
         self.build_dir.mkdir(parents=True, exist_ok=True)
         self.target_dir.mkdir(parents=True, exist_ok=True)
-        patchdefs = self.gather_patchdefs()
-        trees = Trees(
-            tree_dir=self.tree_dir,
-            patch_dir=self.build_dir / "patches",
-            patchdefs=patchdefs,
-        )
+        trees = Trees(tree_dir=self.tree_dir)
         cases = self.gather_cases()
         depmap: dict[str, list[str]] = {}
         for c in cases.values():
@@ -91,14 +81,6 @@ class CaseFactory:
         shutil.rmtree(self.build_dir)
         log.info("Removing %s ...", self.target_dir)
         shutil.rmtree(self.target_dir)
-
-    def gather_patchdefs(self) -> dict[str, PatchDef]:
-        patchdefs = {}
-        for p in self.patchdef_dir.glob("*.json"):
-            with p.open(encoding="utf-8") as fp:
-                pdef = PatchDef.model_validate(json.load(fp))
-                patchdefs[p.stem] = pdef
-        return patchdefs
 
     def gather_cases(self) -> dict[str, type[TestCase]]:
         cases = {}

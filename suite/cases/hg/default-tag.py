@@ -15,7 +15,7 @@ class TestCase(ZipCase):
         hg.commit("Some code")
         self.sync("0200-hg-packaged")
         hg.commit("Packaging")
-        self.patch("0300-hg-default-tag")
+        self.sync("0300-hg-default-tag")
         hg.commit("Set default-tag")
         hg.zip()
         info = hg.get_info()

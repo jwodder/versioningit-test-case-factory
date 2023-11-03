@@ -15,16 +15,14 @@ class TestCase(ZipCase):
         self.sync("0200-hg-packaged")
         hg.commit("Packaging")
         hg.tag("v0.1.0")
-        self.patch("0300-hg-feature")
-        hg.commit("Add a feature")
-        self.patch("0300-hg-pattern")
+        self.sync("0300-hg-pattern")
         hg.commit("Set vcs.pattern")
         hg.tag("0.2.0")
         hg.zip()
         info = hg.get_info(pattern="re:^v")
         self.json(
             {
-                "version": f"0.1.0.post4+h{info.rev}",
+                "version": f"0.1.0.post3+h{info.rev}",
                 "next_version": "0.2.0",
             },
         )

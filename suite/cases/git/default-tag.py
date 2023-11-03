@@ -14,7 +14,7 @@ class TestCase(ZipCase):
         git.commit("Some code")
         self.sync("0200-packaged")
         git.commit("Packaging")
-        self.patch("0300-default-tag")
+        self.sync("0300-default-tag")
         git.commit("Set default-tag")
         git.zip()
         info = git.get_info()

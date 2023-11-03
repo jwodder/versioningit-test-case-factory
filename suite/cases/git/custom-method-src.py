@@ -15,7 +15,7 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("rel_0_1_0")
-        self.patch("0300-custom-method-src")
+        self.sync("0300-custom-method-src")
         git.commit("Use a custom method inside package for tag2version")
         git.zip()
         info = git.get_info()

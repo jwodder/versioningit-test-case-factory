@@ -15,16 +15,14 @@ class TestCase(ZipCase):
         self.sync("0200-packaged")
         git.commit("Packaging")
         git.tag("v0.1.0", message="Version 0.1.0")
-        self.patch("0300-archive-match")
+        self.sync("0300-archive-match")
         git.commit("Switch to git-archive")
-        self.patch("0300-feature")
-        git.commit("Add a feature")
         git.tag("0.2.0", message="Version 0.2.0")
         git.zip()
         info = git.get_info()
         self.json(
             {
-                "version": f"0.1.0.post2+g{info.rev}",
+                "version": f"0.1.0.post1+g{info.rev}",
                 "next_version": "0.2.0",
             },
         )

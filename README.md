@@ -13,8 +13,6 @@ test cases requires the following external programs:
 
 - Git
 - Mercurial
-- `diff`
-- `patch`
 
 Usage
 =====

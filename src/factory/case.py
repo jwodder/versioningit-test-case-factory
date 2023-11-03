@@ -90,9 +90,6 @@ class TestCase(ABC):
             path=self.work_dir, zipfile=self.target_dir / f"{self.NAME}.zip"
         )
 
-    def patch(self, patch: str) -> None:
-        self.trees.apply_patch(self.mkwork(), patch)
-
     def sync(self, tree: str) -> None:
         self.trees.sync_dir(self.mkwork(), tree)
 
