@@ -1,0 +1,3 @@
+A packaged Python project using versioningit with a `write` step that is
+configured to write to a Python file with a custom template and non-UTF-8
+encoding

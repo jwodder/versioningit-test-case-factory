@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with an `onbuild` step, including
+defining custom base classes for versioningit's `onbuild` command classes

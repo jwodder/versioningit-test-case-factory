@@ -1,0 +1,4 @@
+`0200-packaged` with another function in the project.
+
+This tree is used for adding an extra commit to repositories' histories in
+order to put some distance from the most recent tag.

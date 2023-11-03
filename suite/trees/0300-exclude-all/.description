@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with the "vcs.exclude" option to
+exclude *all* tags

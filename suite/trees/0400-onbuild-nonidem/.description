@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with an `onbuild` step configured
+to use a non-idempotent replacement string

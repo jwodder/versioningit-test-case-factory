@@ -1,0 +1,6 @@
+An unpackaged Python project.
+
+This tree is mainly used so that there will be a commit before the one in which
+packaging is applied to a repository, as the latter commit is typically the one
+that gets the first tag, and we need to test that versioningit measures
+distance from tags rather than from the start of the commit history.

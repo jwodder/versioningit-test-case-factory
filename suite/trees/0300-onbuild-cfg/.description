@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with a minimally-configured
+`onbuild` step, with the custom command classes used via `setup.cfg`

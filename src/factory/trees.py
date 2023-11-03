@@ -27,6 +27,8 @@ class Trees:
         treedir = self.tree_dir / tree
         with iterpath(treedir, dirs=False, return_relative=True) as ip:
             for p in ip:
+                if p == Path(".description"):
+                    continue
                 src = treedir / p
                 dest = dirpath / p
                 dest.parent.mkdir(parents=True, exist_ok=True)

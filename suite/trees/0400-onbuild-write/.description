@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with both the `write` and
+`onbuild` steps, both configured to use all available formatting fields

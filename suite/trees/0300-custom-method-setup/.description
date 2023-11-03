@@ -1,0 +1,2 @@
+A packaged Python project using versioningit with a custom `tag2version` method
+defined in `setup.py`
