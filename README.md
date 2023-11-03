@@ -35,5 +35,3 @@ run`".
 - `factory deploy path/to/versioningit` — Replace the test case files in the
   given local clone of the [versioningit][] repository with those produced by a
   previous `factory build` call
-
-Run the various commands with the `--help` option for more details.

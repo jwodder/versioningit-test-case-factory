@@ -45,7 +45,7 @@ log = logging.getLogger()
     "--target-dir",
     type=click.Path(file_okay=False, dir_okay=True, writable=True, path_type=Path),
     default="target",
-    help="Directory in which to create final artifacts",
+    help="Directory in which to create final assets",
     show_default=True,
     metavar="DIR",
 )
@@ -55,7 +55,7 @@ log = logging.getLogger()
         exists=True, file_okay=False, dir_okay=True, readable=True, path_type=Path
     ),
     default="suite",
-    help="Directory containing the data for the test suite",
+    help="Directory containing the definitions & templates for the test cases",
     show_default=True,
     metavar="DIR",
 )
@@ -90,6 +90,7 @@ def main(
 @click.option("--clean", is_flag=True, help="Run `clean` before building")
 @click.pass_obj
 def build(factory: CaseFactory, clean: bool) -> None:
+    """Build all assets"""
     if clean:
         factory.clean()
     factory.build()
@@ -98,6 +99,7 @@ def build(factory: CaseFactory, clean: bool) -> None:
 @main.command()
 @click.pass_obj
 def clean(factory: CaseFactory) -> None:
+    """Remove build and target directories"""
     factory.clean()
 
 
@@ -110,6 +112,12 @@ def clean(factory: CaseFactory) -> None:
 )
 @click.pass_obj
 def deploy(factory: CaseFactory, versioningit_repo: Path) -> None:
+    """
+    Deploy all assets to versioningit.
+
+    This command replaces the test case files in the given local clone of the
+    versioningit repository with the contents of the target directory.
+    """
     data_dir = versioningit_repo / "test" / "data"
     for p in data_dir.glob("*.tar.gz"):
         log.debug("Removing %s", p)
@@ -142,6 +150,14 @@ def deploy(factory: CaseFactory, versioningit_repo: Path) -> None:
 )
 @click.pass_obj
 def compare(factory: CaseFactory, diff_dir: Path, versioningit_repo: Path) -> None:
+    """
+    Diff archive assets against versioningit.
+
+    This command compares the contents of the archive assets in the target
+    directory against the archives currently present in the given local clone
+    of the versioningit repository.  If a given archive asset differs from the
+    one in versioningit, a diff of the contents is stored in `--diff-dir`.
+    """
     with tempfile.TemporaryDirectory() as tmpdir:
         comparer = Comparer(workdir=Path(tmpdir), diffdir=diff_dir)
         new_assets = dict(iter_archives(factory.target_dir))
