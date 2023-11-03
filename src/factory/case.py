@@ -6,6 +6,7 @@ import json
 import logging
 from pathlib import Path
 from typing import Any, ClassVar, get_origin, get_type_hints
+from in_place import InPlace
 from .trees import Trees
 from .vcs import Git, Mercurial
 
@@ -161,3 +162,13 @@ class ZipCase(TestCase):
         self.asset_path(".marks").write_text(
             "".join(f"{m}\n" for m in marks), encoding="utf-8"
         )
+
+    def dirty(self) -> None:
+        """
+        Make a tiny change to the workdir contents for the sake of creating a
+        "dirty" repository
+        """
+        with InPlace(self.work_dir / "setup.cfg", encoding="utf-8") as fp:
+            for line in fp:
+                line = line.replace("test package", "dirty test package")
+                fp.write(line)

@@ -15,7 +15,7 @@ class TestCase(ZipCase):
         self.sync("0200-hg-packaged")
         hg.commit("Packaging")
         hg.tag("v0.1.0")
-        self.patch("0300-hg-dirt")
+        self.dirty()
         hg.runhg("addremove")
         hg.zip()
         info = hg.get_info()

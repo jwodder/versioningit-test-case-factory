@@ -16,6 +16,6 @@ class TestCase(ZipCase):
         git.commit("Packaging")
         git.tag("v0.1.0")
         self.patch("0300-custom-format")
-        self.patch("0300-dirt")
+        self.dirty()
         git.zip()
         self.json({"version": "0.1.0+dirty", "next_version": "0.2.0"})

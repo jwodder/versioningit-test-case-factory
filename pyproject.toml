@@ -38,6 +38,7 @@ dependencies = [
     "build ~= 1.0",
     "click ~= 8.0",
     "click-loglevel ~= 0.5",
+    "in-place ~= 1.0",
     "iterpath ~= 0.4",
     "pydantic ~= 2.0",
 ]

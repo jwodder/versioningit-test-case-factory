@@ -16,7 +16,7 @@ class TestCase(ZipCase):
         hg.commit("Packaging")
         hg.tag("v0.1.0")
         hg.runhg("update", "-r", "v0.1.0")
-        self.patch("0300-hg-dirt")
+        self.dirty()
         hg.runhg("addremove")
         hg.zip()
         self.json({"version": "0.1.0+d20380119", "next_version": "0.2.0"})

@@ -18,7 +18,7 @@ class TestCase(ZipCase):
         self.patch("0300-feature")
         git.commit("Add a feature")
         self.patch("0300-custom-format")
-        self.patch("0300-dirt")
+        self.dirty()
         git.zip()
         info = git.get_info()
         self.json(
