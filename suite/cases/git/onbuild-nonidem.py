@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the ``onbuild`` step is configured to
+    use a non-idempotent replacement string
+    """
+
     NAME = "onbuild-nonidem"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

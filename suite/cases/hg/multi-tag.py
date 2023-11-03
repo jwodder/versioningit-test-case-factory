@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Mercurial repository in which there are two tags pointing to the
+    same commit
+    """
+
     NAME = "multi-tag"
     PATH = Path("repos", "hg")
     EXTRAS = [".json"]

@@ -4,6 +4,10 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository without any tags but with ``vcs.default-tag`` set
+    """
+
     NAME = "default-version"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

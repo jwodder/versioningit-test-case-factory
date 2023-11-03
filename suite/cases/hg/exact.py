@@ -4,6 +4,13 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Mercurial repository in which the working directory has been
+    updated to point to a tag.
+
+    (In Mercurial, creating a tag creates a commit.)
+    """
+
     ID = "hg-exact"
     NAME = "exact"
     PATH = Path("repos", "hg")

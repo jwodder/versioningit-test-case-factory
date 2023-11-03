@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use custom
+    format templates and the repository is dirty
+    """
+
     NAME = "custom-format-dirty"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

@@ -5,6 +5,8 @@ from factory.util import zipdir
 
 
 class TestCase(ZipCase):
+    """Produces a Python project that is not managed by a VCS"""
+
     NAME = "no-git"
     PATH = Path("repos")
 

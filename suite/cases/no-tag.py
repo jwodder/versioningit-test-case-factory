@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Python project where versioningit is configured to exclude all
+    tags, leading to an error
+    """
+
     NAME = "no-tag"
     PATH = Path("repos", "errors")
     EXTRAS = [".json", ".marks"]

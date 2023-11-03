@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use a
+    custom ``tag2version`` method imported directly from the top level of the
+    package
+    """
+
     NAME = "custom-method-pkg"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

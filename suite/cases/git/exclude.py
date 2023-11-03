@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the most recent tag is excluded by the
+    ``vcs.exclude`` setting
+    """
+
     NAME = "exclude"
     PATH = Path("repos", "git")
     EXTRAS = [".json", ".fields.json", ".marks"]

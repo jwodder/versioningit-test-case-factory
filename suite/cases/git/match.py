@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the most recent tag is filtered out by
+    the ``vcs.match`` setting
+    """
+
     NAME = "match"
     PATH = Path("repos", "git")
     EXTRAS = [".json", ".fields.json"]

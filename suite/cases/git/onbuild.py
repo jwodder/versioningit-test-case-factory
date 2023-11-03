@@ -4,6 +4,8 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """Produces a Git repository that uses the ``onbuild`` step"""
+
     NAME = "onbuild"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

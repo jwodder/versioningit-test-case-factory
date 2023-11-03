@@ -6,6 +6,8 @@ from factory.vcs import zip_git
 
 
 class TestCase(ZipCase):
+    """Produces a shallow clone of a Git repository"""
+
     NAME = "shallow"
     PATH = Path("repos")
 

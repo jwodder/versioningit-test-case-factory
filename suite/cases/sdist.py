@@ -6,6 +6,8 @@ from factory.case import SdistCase
 
 
 class TestCase(SdistCase):
+    """Produces an sdist of a versioningit-enabled Python project"""
+
     NAME = "mypackage-*.tar.gz"
     PATH = Path()
     DEPENDENCIES = ["onbuild-write"]

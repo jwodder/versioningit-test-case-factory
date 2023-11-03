@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Python project where versioningit is configured to produce a
+    non-PEP 440 version while also calculating the version tuple in PEP 440
+    mode, resulting in an error
+    """
+
     NAME = "template-fields-error"
     PATH = Path("repos", "errors")
     EXTRAS = [".json"]

@@ -4,6 +4,8 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """Produces a dirty Mercurial repository"""
+
     NAME = "dirty"
     PATH = Path("repos", "hg")
     EXTRAS = [".json"]

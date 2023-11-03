@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the most recent commit is tagged with a
+    lightweight tag
+    """
+
     NAME = "exact"
     PATH = Path("repos", "git")
     EXTRAS = [".json", ".fields.json", ".exclude.fields.json"]

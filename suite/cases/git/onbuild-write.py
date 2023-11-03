@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which both the ``onbuild`` and ``write`` steps
+    are configured, and they both use all available formatting fields
+    """
+
     ID = "onbuild-write"
     NAME = "onbuild-write"
     PATH = Path("repos", "git")

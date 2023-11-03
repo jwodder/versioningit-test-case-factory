@@ -8,6 +8,11 @@ BASE = "hg-default-tag"
 
 
 class TestCase(ZipCase):
+    """
+    Produces an archive of a Mercurial repository without any tags but with
+    ``vcs.default-tag`` set
+    """
+
     NAME = "hg-archive-default-tag"
     PATH = Path("repos", "archives")
     DEPENDENCIES = [BASE]

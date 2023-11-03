@@ -4,6 +4,8 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """Produces a Python project that does not use :file:`pyproject.toml`"""
+
     NAME = "no-pyproject"
     PATH = Path("repos")
 

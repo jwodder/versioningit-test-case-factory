@@ -4,6 +4,8 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """Produces a Git repository with a detached HEAD set to a tag"""
+
     NAME = "detached-exact"
     PATH = Path("repos", "git")
     EXTRAS = [".json", ".fields.json"]

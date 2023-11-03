@@ -8,6 +8,8 @@ BASE = "git-archive-repo-mixed-tags"
 
 
 class TestCase(ZipCase):
+    """Produces an archive of a Git repository as of a tag"""
+
     NAME = "git-archive-exact"
     PATH = Path("repos", "archives")
     DEPENDENCIES = [BASE]

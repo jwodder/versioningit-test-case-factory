@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use the
+    "git-archive" method and the most recent tag is filtered out by the
+    ``vcs.match`` setting
+    """
+
     NAME = "archive-repo-match"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use the
+    "git-archive" method
+    """
+
     ID = "git-archive-repo"
     NAME = "archive-repo"
     PATH = Path("repos", "git")

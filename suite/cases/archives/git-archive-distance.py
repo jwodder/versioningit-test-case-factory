@@ -8,6 +8,11 @@ BASE = "git-archive-repo"
 
 
 class TestCase(ZipCase):
+    """
+    Produces an archive of a Git repository in which one or more commits have
+    been made since the most recent tag
+    """
+
     NAME = "git-archive-distance"
     PATH = Path("repos", "archives")
     DEPENDENCIES = [BASE]

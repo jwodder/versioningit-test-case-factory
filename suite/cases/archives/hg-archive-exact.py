@@ -8,6 +8,8 @@ BASE = "hg-exact"
 
 
 class TestCase(ZipCase):
+    """Produces an archive of a Mercurial repository as of a tag"""
+
     NAME = "hg-archive-exact"
     PATH = Path("repos", "archives")
     DEPENDENCIES = [BASE]

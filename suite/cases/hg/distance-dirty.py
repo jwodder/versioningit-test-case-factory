@@ -4,6 +4,13 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Mercurial repository in which one or more commits have been made
+    since the most recent tag and the repository is dirty.
+
+    (In Mercurial, creating a tag creates a commit.)
+    """
+
     NAME = "distance-dirty"
     PATH = Path("repos", "hg")
     EXTRAS = [".json", ".fields.json"]

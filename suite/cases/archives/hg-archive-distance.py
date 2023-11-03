@@ -8,6 +8,11 @@ BASE = "hg-distance"
 
 
 class TestCase(ZipCase):
+    """
+    Produces an archive of a Mercurial repository in which one or more commits
+    have been made since the most recent tag
+    """
+
     NAME = "hg-archive-distance"
     PATH = Path("repos", "archives")
     DEPENDENCIES = [BASE]

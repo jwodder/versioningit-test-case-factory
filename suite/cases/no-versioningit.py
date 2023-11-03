@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Python project that lists versioningit in its build system
+    requirements but fails to configure it
+    """
+
     NAME = "no-versioningit"
     PATH = Path("repos")
     EXTRAS = [".txt"]

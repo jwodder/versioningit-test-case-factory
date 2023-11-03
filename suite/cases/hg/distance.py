@@ -4,6 +4,13 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Mercurial repository in which one or more commits have been made
+    since the most recent tag.
+
+    (In Mercurial, creating a tag creates a commit.)
+    """
+
     ID = "hg-distance"
     NAME = "distance"
     PATH = Path("repos", "hg")

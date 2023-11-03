@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use custom
+    format templates, one or more commits have been made since the most recent
+    tag, and the repository is dirty
+    """
+
     NAME = "custom-format-distance-dirty"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

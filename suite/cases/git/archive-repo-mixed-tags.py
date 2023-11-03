@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use the
+    "git-archive" method with the ``tags`` option and the most recent tag is
+    lightweight
+    """
+
     ID = "git-archive-repo-mixed-tags"
     NAME = "archive-repo-mixed-tags"
     PATH = Path("repos", "git")

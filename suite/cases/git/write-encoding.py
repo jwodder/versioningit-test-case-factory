@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the ``write`` step is configured to
+    produce a file with a non-UTF-8 encoding
+    """
+
     NAME = "write-encoding"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

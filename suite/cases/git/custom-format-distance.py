@@ -4,6 +4,12 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which versioningit is configured to use custom
+    format templates and one or more commits have been made since the most
+    recent tag
+    """
+
     NAME = "custom-format-distance"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

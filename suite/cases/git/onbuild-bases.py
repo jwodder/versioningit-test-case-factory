@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the ``onbuild`` step is enabled using
+    custom base classes for versioningit's command classes
+    """
+
     NAME = "onbuild-bases"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

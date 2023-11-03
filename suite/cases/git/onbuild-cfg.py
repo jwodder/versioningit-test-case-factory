@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the ``onbuild`` step is enabled and
+    configured via :file:`setup.cfg`
+    """
+
     NAME = "onbuild-cfg"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

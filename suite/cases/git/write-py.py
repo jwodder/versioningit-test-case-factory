@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which the ``write`` step is configured to
+    produce a Python file
+    """
+
     NAME = "write-py"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

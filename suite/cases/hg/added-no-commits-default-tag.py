@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Mercurial repository in which no commits have been made but
+    ``vcs.default-tag`` is set
+    """
+
     NAME = "added-no-commits-default-tag"
     PATH = Path("repos", "hg")
     EXTRAS = [".json"]

@@ -4,6 +4,11 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Produces a Git repository in which one or more commits have been made since
+    the most recent tag and the repository is dirty
+    """
+
     NAME = "distance-dirty"
     PATH = Path("repos", "git")
     EXTRAS = [".json", ".fields.json"]
