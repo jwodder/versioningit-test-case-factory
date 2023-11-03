@@ -14,10 +14,7 @@ class TestCase(ZipCase):
         git.commit("Some code")
         self.sync("0200-packaged")
         git.commit("Packaging")
-        git.tag("v0.1.0")
-        self.sync("0300-default-version")
-        git.commit("Use default-version")
-        self.sync("0400-default-version-bad")
+        self.sync("0300-default-version-bad")
         git.commit("Use a non-PEP 440 default-version")
         git.zip()
         self.json(
@@ -43,4 +40,4 @@ class TestCase(ZipCase):
                 ],
             },
         )
-        self.marks("describe_exclude", "oldsetup")
+        self.marks("oldsetup")

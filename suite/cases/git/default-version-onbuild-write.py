@@ -4,6 +4,13 @@ from factory.case import ZipCase
 
 
 class TestCase(ZipCase):
+    """
+    Unlike `default-version` and `default-version-bad`, this test case creates
+    a tag that is filtered out by the project's `vcs.match` setting, in order
+    to test that versioningit does the right thing when all tags are filtered
+    out.
+    """
+
     NAME = "default-version-onbuild-write"
     PATH = Path("repos", "git")
     EXTRAS = [".json"]

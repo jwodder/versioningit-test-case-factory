@@ -4,6 +4,3 @@ build-backend = "setuptools.build_meta"
 
 [tool.versioningit]
 default-version = "0.0.0+error"
-
-[tool.versioningit.vcs]
-exclude = ["*"]

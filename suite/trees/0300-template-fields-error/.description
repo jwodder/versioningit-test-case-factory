@@ -1,3 +1,3 @@
 A packaged Python project using versioningit with custom "format" templates
 defining a non-PEP 440 version format while also configuring the version tuple
-to be parsed in PEP 440 mode, thereby leading to an error
+to be calculated in PEP 440 mode, thereby leading to an error

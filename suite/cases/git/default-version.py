@@ -6,7 +6,7 @@ from factory.case import ZipCase
 class TestCase(ZipCase):
     NAME = "default-version"
     PATH = Path("repos", "git")
-    EXTRAS = [".json", ".marks"]
+    EXTRAS = [".json"]
 
     def build(self) -> None:
         git = self.git()
@@ -14,7 +14,6 @@ class TestCase(ZipCase):
         git.commit("Some code")
         self.sync("0200-packaged")
         git.commit("Packaging")
-        git.tag("v0.1.0")
         self.sync("0300-default-version")
         git.commit("Use default-version")
         git.zip()
@@ -37,4 +36,3 @@ class TestCase(ZipCase):
                 ],
             },
         )
-        self.marks("describe_exclude")
