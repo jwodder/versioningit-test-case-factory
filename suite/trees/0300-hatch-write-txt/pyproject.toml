@@ -17,3 +17,6 @@ source = "versioningit"
 
 [tool.versioningit.write]
 file = "src/mypackage/version.txt"
+
+[tool.hatch.build]
+artifacts = ["src/mypackage/version.txt"]
