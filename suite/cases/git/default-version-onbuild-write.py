@@ -44,7 +44,7 @@ class TestCase(ZipCase):
                     },
                     {
                         "level": "INFO",
-                        "message": "Falling back to tool.versioningit.default-version",
+                        "message": "Falling back to default-version",
                     },
                 ],
                 "files": [
