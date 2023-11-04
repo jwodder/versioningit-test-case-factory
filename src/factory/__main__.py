@@ -88,12 +88,21 @@ def main(
 
 @main.command()
 @click.option("--clean", is_flag=True, help="Run `clean` before building")
+@click.argument("id_globs", nargs=-1)
 @click.pass_obj
-def build(factory: CaseFactory, clean: bool) -> None:
-    """Build all assets"""
+def build(factory: CaseFactory, clean: bool, id_globs: tuple[str, ...]) -> None:
+    """
+    Build assets.
+
+    If no arguments are given, all assets for all test cases are built.
+
+    If any arguments are given, they are interpreted as glob patterns in which
+    wildcards can match '/', and only the assets for the test cases whose IDs
+    match one of the globs (along with their dependencies) are built.
+    """
     if clean:
         factory.clean()
-    factory.build()
+    factory.build(id_globs=id_globs)
 
 
 @main.command()
@@ -104,6 +113,11 @@ def clean(factory: CaseFactory) -> None:
 
 
 @main.command()
+@click.option(
+    "--no-purge",
+    is_flag=True,
+    help="Do not delete all assets already in the versioningit repository",
+)
 @click.argument(
     "versioningit-repo",
     type=click.Path(
@@ -111,26 +125,27 @@ def clean(factory: CaseFactory) -> None:
     ),
 )
 @click.pass_obj
-def deploy(factory: CaseFactory, versioningit_repo: Path) -> None:
+def deploy(factory: CaseFactory, versioningit_repo: Path, no_purge: bool) -> None:
     """
-    Deploy all assets to versioningit.
+    Deploy assets to versioningit.
 
     This command replaces the test case files in the given local clone of the
     versioningit repository with the contents of the target directory.
     """
     data_dir = versioningit_repo / "test" / "data"
-    for p in data_dir.glob("*.tar.gz"):
-        log.debug("Removing %s", p)
-        p.unlink()
-    log.debug("Removing %s directory", data_dir / "repos")
-    shutil.rmtree(data_dir / "repos")
+    if not no_purge:
+        for p in data_dir.glob("*.tar.gz"):
+            log.debug("Removing %s", p)
+            p.unlink()
+        log.debug("Removing %s directory", data_dir / "repos")
+        shutil.rmtree(data_dir / "repos")
     with iterpath(factory.target_dir, dirs=False, return_relative=True) as ip:
         for p in ip:
             src = factory.target_dir / p
             dest = data_dir / p
             dest.parent.mkdir(parents=True, exist_ok=True)
             log.debug("Moving %s to %s", src, dest)
-            src.rename(dest)
+            src.replace(dest)
 
 
 @main.command()

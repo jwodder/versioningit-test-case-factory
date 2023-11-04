@@ -1,10 +1,13 @@
 from __future__ import annotations
+from collections.abc import Sequence
 from dataclasses import dataclass
 from datetime import datetime, timezone
+import fnmatch
 from graphlib import TopologicalSorter
 import inspect
 import logging
 from pathlib import Path
+import re
 import shutil
 import sys
 from typing import Any
@@ -33,7 +36,7 @@ class CaseFactory:
     def tree_dir(self) -> Path:
         return self.suite_dir / "trees"
 
-    def build(self) -> None:
+    def build(self, id_globs: Sequence[str] = ()) -> None:
         self.build_dir.mkdir(parents=True, exist_ok=True)
         self.target_dir.mkdir(parents=True, exist_ok=True)
         trees = Trees(tree_dir=self.tree_dir)
@@ -48,6 +51,9 @@ class CaseFactory:
                         f"Test case {cname} depends on unknown test case {dep}"
                     )
                 depmap[cname].append(dep)
+        if id_globs:
+            rgx = re.compile("|".join(map(fnmatch.translate, id_globs)))
+            depmap = {k: v for k, v in depmap.items() if rgx.match(k)}
         sorter = TopologicalSorter(depmap)
         completed: dict[str, TestCase] = {}
         for cid in sorter.static_order():
