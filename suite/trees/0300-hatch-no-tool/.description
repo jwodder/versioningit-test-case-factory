@@ -1,0 +1,3 @@
+A packaged Python project using Hatch and versioningit where the latter is
+configured through a trivial `[tool.hatch.version]` instead of
+`[tool.versioningit]`

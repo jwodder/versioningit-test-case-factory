@@ -1,0 +1,2 @@
+A packaged Python project using Hatch and versioningit with the "vcs.exclude"
+option set to exclude *all* tags

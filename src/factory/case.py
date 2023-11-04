@@ -165,7 +165,9 @@ class ZipCase(TestCase):
         Make a tiny change to the workdir contents for the sake of creating a
         "dirty" repository
         """
-        with InPlace(self.work_dir / "setup.cfg", encoding="utf-8") as fp:
-            for line in fp:
-                line = line.replace("test package", "dirty test package")
-                fp.write(line)
+        for name in ["setup.cfg", "pyproject.toml"]:
+            if (self.work_dir / name).exists():
+                with InPlace(self.work_dir / name, encoding="utf-8") as fp:
+                    for line in fp:
+                        line = line.replace("test package", "dirty test package")
+                        fp.write(line)

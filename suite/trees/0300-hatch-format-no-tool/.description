@@ -1,0 +1,2 @@
+A packaged Python project using Hatch and versioningit with custom "format"
+templates configured via `[tool.hatch.version]`
