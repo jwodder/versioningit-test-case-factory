@@ -1,5 +1,6 @@
 from __future__ import annotations
 from collections.abc import Sequence
+from contextlib import suppress
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import fnmatch
@@ -84,9 +85,11 @@ class CaseFactory:
 
     def clean(self) -> None:
         log.info("Removing %s ...", self.build_dir)
-        shutil.rmtree(self.build_dir)
+        with suppress(FileNotFoundError):
+            shutil.rmtree(self.build_dir)
         log.info("Removing %s ...", self.target_dir)
-        shutil.rmtree(self.target_dir)
+        with suppress(FileNotFoundError):
+            shutil.rmtree(self.target_dir)
 
     def gather_cases(self) -> dict[str, type[TestCase]]:
         cases = {}
