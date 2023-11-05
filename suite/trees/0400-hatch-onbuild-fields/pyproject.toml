@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling", "versioningit"]
+build-backend = "hatchling.build"
+
+[project]
+name = "mypackage"
+dynamic = ["version"]
+description = "A test package"
+readme = "README.rst"
+requires-python = ">=3.6"
+authors = [
+    { name = "John Thorvald Wodder II", email = "mypackage@varonathe.org" }
+]
+
+[tool.hatch.version]
+source = "versioningit"
+
+[tool.hatch.build.hooks.versioningit-onbuild]
+source-file = "src/mypackage/__init__.py"
+build-file = "mypackage/__init__.py"
+regex = '^\s*__version__\s*=.*'
+replacement = """\
+__version__ = "{version}"
+__version_tuple__ = {version_tuple}
+__date__ = "{author_date}"
+__branch__ = {branch!r}
+__build_date__ = "{build_date:%Y%m%dT%H%M%SZ}"
+__commit_date__ = "{committer_date}"
+__base_version__ = "{base_version}"
+__tag_distance__ = {distance}
+__next_version__ = "{next_version}"
+__rev__ = "{rev}"
+__revision__ = "{revision}"
+__vcs__ = "{vcs}"
+__vcs_name__ = "{vcs_name}"\
+"""

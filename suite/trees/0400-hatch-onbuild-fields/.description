@@ -1,0 +1,2 @@
+A packaged Python project using Hatch and versioningit, the latter with an
+`onbuild` step configured to use all available formatting fields
