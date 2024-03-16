@@ -5,7 +5,7 @@ from factory.case import ZipCase
 
 class TestCase(ZipCase):
     """
-    Produces a Git repository with ``vcs.default-tag`` set and with the
+    Produces a Git repository with ``default-version`` set and with the
     ``onbuild`` and ``write`` steps enabled.
 
     Unlike ``default-version`` and ``default-version-bad``, this test case

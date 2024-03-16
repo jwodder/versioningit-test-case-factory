@@ -5,7 +5,7 @@ from factory.case import ZipCase
 
 class TestCase(ZipCase):
     """
-    Produces a Git repository without any tags but with ``vcs.default-tag`` set
+    Produces a Git repository without any tags but with ``default-version`` set
     to a non-PEP 440 version
     """
 
