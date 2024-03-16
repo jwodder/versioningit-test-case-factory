@@ -22,6 +22,9 @@ class TestCase(ZipCase):
         git.commit("Induce an error")
         git.zip()
         self.json(
-            {"type": "NoTagError", "message": "`git describe` could not find a tag"},
+            {
+                "type": "NoTagError",
+                "message": "`git describe --long --dirty --always --tags '--exclude=*'` could not find a tag",
+            },
         )
         self.marks("describe_exclude")

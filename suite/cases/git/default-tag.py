@@ -22,5 +22,16 @@ class TestCase(ZipCase):
         git.commit("Set default-tag")
         git.zip()
         info = git.get_info()
-        self.json({"version": f"0.0.0.post2+g{info.rev}", "next_version": "0.1.0"})
+        self.json(
+            {
+                "version": f"0.0.0.post2+g{info.rev}",
+                "next_version": "0.1.0",
+                "logmsgs": [
+                    {
+                        "level": "INFO",
+                        "message": "`git describe --long --dirty --always --tags` returned a hash instead of a tag; falling back to default tag 'v0.0.0'",
+                    }
+                ],
+            }
+        )
         info.save(self.asset_path(".fields.json"))

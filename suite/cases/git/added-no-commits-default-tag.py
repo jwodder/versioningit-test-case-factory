@@ -18,4 +18,19 @@ class TestCase(ZipCase):
         self.sync("0300-default-tag")
         git.rungit("add", ".")
         git.zip()
-        self.json({"version": "0.0.0+d20380119", "next_version": "0.1.0"})
+        self.json(
+            {
+                "version": "0.0.0+d20380119",
+                "next_version": "0.1.0",
+                "logmsgs": [
+                    {
+                        "level": "ERROR",
+                        "message": "`git describe --long --dirty --always --tags` command failed: fatal: bad revision 'HEAD'",
+                    },
+                    {
+                        "level": "INFO",
+                        "message": "Falling back to default tag 'v0.0.0'",
+                    },
+                ],
+            }
+        )

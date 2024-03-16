@@ -26,12 +26,12 @@ class TestCase(ZipCase):
                 "version": "0.0.0+error",
                 "next_version": {
                     "type": "NoTagError",
-                    "message": "`git describe` could not find a tag",
+                    "message": "`git describe --long --dirty --always --tags` could not find a tag",
                 },
                 "logmsgs": [
                     {
                         "level": "ERROR",
-                        "message": "NoTagError: `git describe` could not find a tag",
+                        "message": "NoTagError: `git describe --long --dirty --always --tags` could not find a tag",
                     },
                     {
                         "level": "INFO",
