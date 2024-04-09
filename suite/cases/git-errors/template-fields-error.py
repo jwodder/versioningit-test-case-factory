@@ -11,7 +11,7 @@ class TestCase(ZipCase):
     """
 
     NAME = "template-fields-error"
-    PATH = Path("repos", "errors")
+    PATH = Path("repos", "git-errors")
     EXTRAS = [".json"]
 
     def build(self) -> None:

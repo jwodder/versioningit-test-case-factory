@@ -10,7 +10,7 @@ class TestCase(ZipCase):
     """
 
     NAME = "hg-no-tag"
-    PATH = Path("repos", "errors")
+    PATH = Path("repos", "hg-errors")
     EXTRAS = [".json"]
 
     def build(self) -> None:

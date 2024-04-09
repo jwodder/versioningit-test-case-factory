@@ -11,7 +11,7 @@ class TestCase(ZipCase):
     """
 
     NAME = "archive-no-tag"
-    PATH = Path("repos", "errors")
+    PATH = Path("repos", "git-errors")
     EXTRAS = [".json", ".marks"]
 
     def build(self) -> None:

@@ -5,20 +5,20 @@ from factory.case import ZipCase
 
 class TestCase(ZipCase):
     """
-    Produces a Python project where versioningit is configured to exclude all
-    tags, leading to an error
+    Produces a Python project using Hatch where versioningit is configured to
+    exclude all tags, leading to an error
     """
 
-    NAME = "no-tag"
-    PATH = Path("repos", "errors")
+    NAME = "hatch-no-tag"
+    PATH = Path("repos", "git-errors")
     EXTRAS = [".json", ".marks"]
 
     def build(self) -> None:
         git = self.git()
-        self.sync("0200-packaged")
-        git.commit("Packaging")
+        self.sync("0200-hatch-packaged")
+        git.commit("Packaging with hatch")
         git.tag("v0.1.0")
-        self.sync("0300-exclude-all")
+        self.sync("0300-hatch-exclude-all")
         git.commit("Induce an error")
         git.zip()
         self.json(
