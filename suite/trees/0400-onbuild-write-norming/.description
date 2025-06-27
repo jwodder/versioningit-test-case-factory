@@ -1,0 +1,3 @@
+A packaged Python project using versioningit to produce a non-normalized
+version and that uses both the `write` and `onbuild` steps to emit the
+normalized & un-normalized versions

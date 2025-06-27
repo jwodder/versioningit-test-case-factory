@@ -1,1 +1,2 @@
-A packaged Python project with minimal versioningit configuration for Git
+A packaged Python project that configures versioningit via a
+`versioningit.toml` file
