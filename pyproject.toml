@@ -40,7 +40,7 @@ dependencies = [
     "click-loglevel ~= 0.5",
     "in-place ~= 1.0",
     "iterpath ~= 0.4",
-    "pydantic ~= 2.0",
+    "pydantic ~= 2.13",
 ]
 
 [project.scripts]
