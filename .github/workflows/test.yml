@@ -3,14 +3,16 @@ name: Test
 on:
   pull_request:
   push:
-    branches-ignore:
-      - 'dependabot/**'
+    branches:
+      - master
   #schedule:
   #  - cron: '0 6 * * *'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref_name }}
   cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   test:
@@ -34,6 +36,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@v6
